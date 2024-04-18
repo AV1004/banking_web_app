@@ -6,6 +6,7 @@ import Root from "./components/Root";
 import { useEffect, useState } from "react";
 
 import LoadingGif from "./assets/Loading.gif";
+import SignUp from "./components/SignUp";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "/signup", element: "SignUp" },
+      { path: "/signup", element: <SignUp/> },
       { path: "/login", element: "login" },
     ],
   },
