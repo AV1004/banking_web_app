@@ -7,14 +7,14 @@ import HomePageImg3 from "../assets/HomePageImg3.png";
 export default function HomePage() {
   return (
     <Carousel
-      className="rounded-xl"
-      //   autoplay="true"
+      className="rounded-xl mt-20"
+      autoplay="true"
       navigation={({ setActiveIndex, activeIndex, length }) => (
-        <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
+        <div className="absolute bottom-2 left-2/4 z-50 flex  -translate-x-2/4 gap-3">
           {new Array(length).fill("").map((_, i) => (
             <span
               key={i}
-              className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${
+              className={`block h-2  cursor-pointer rounded-2xl transition-all content-[''] hover:bg-[#00ADB5] ${
                 activeIndex === i ? "w-8 bg-white" : "w-4 bg-[#222831]"
               }`}
               onClick={() => setActiveIndex(i)}
@@ -28,7 +28,7 @@ export default function HomePage() {
           color="#222831"
           size="lg"
           onClick={handlePrev}
-          className="!absolute top-2/4 left-4 -translate-y-2/4"
+          className="!absolute top-2/4 left-4 -translate-y-2/4 hover:bg-[#EEEEEE]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +36,7 @@ export default function HomePage() {
             viewBox="0 0 24 24"
             strokeWidth={2}
             stroke="currentColor"
-            className="h-6 w-6"
+            className="h-6 w-6 hover:text-[#00ADB5]"
           >
             <path
               strokeLinecap="round"
@@ -52,7 +52,7 @@ export default function HomePage() {
           color="#222831"
           size="lg"
           onClick={handleNext}
-          className="!absolute top-2/4 !right-4 -translate-y-2/4"
+          className="!absolute top-2/4 !right-4 -translate-y-2/4 hover:bg-[#EEEEEE]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +60,7 @@ export default function HomePage() {
             viewBox="0 0 24 24"
             strokeWidth={2}
             stroke="currentColor"
-            className="h-6 w-6"
+            className="h-6 w-6 hover:text-[#00ADB5]"
           >
             <path
               strokeLinecap="round"
@@ -72,8 +72,8 @@ export default function HomePage() {
       )}
     >
       <div className="-mt-[4rem] mb-10">
-        <img src={HomePageImg1} alt="image 1" className="ml-96" />
-        <div className="flex flex-col items-center gap-2">
+        <img src={HomePageImg1} alt="image 1" className="ml-[35rem]" />
+        <div className="flex flex-col items-center gap-2 text-[#222831]">
           <h1 className="text-4xl">Fastest Payment in the world</h1>
           <p>
             Integrate multiple payment methoods to help you up the process
@@ -83,8 +83,8 @@ export default function HomePage() {
       </div>
 
       <div className="-mt-[4rem] mb-10">
-        <img src={HomePageImg2} alt="image 2" className="ml-96" />
-        <div className="flex flex-col items-center gap-2">
+        <img src={HomePageImg2} alt="image 2" className="ml-[35rem]" />
+        <div className="flex flex-col items-center gap-2 text-[#222831]">
           <h1 className="text-4xl">The most Secoure Platfrom for Customer</h1>
           <p>
             Built-in Fingerprint, face recognition and more, keeping you
@@ -94,8 +94,12 @@ export default function HomePage() {
       </div>
 
       <div className=" mb-10">
-        <img src={HomePageImg3} alt="image 3" className="h-96 ml-96 mt-4" />
-        <div className="flex flex-col items-center gap-2">
+        <img
+          src={HomePageImg3}
+          alt="image 3"
+          className="h-96 ml-[35rem] mt-4"
+        />
+        <div className="flex flex-col items-center gap-2 text-[#222831]">
           <h1 className="text-4xl">
             Paying for Everything is Easy and Convenient
           </h1>

@@ -2,27 +2,27 @@ import { useState } from "react";
 
 export default function LogIn() {
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100 ">
-      <form className="bg-white p-8 shadow-md w-96 rounded-2xl">
+    <div className="flex justify-center items-center  mt-44">
+      <form className="bg-[#222831] p-8 shadow-md w-96 rounded-2xl">
         {/* Device Details Section */}
 
         {/* <div className="mb-4 "> */}
-        <h1 className="text-4xl tracking-wide font-light uppercase mb-8 text-center">
-          Sign In
+        <h1 className="text-4xl tracking-wide font-light uppercase mb-8 text-center bg-[#222831] text-[#EEEEEE]">
+          Login
         </h1>
         <input
           type="text"
           name="email"
           required
           placeholder="Email Address"
-          className="border p-2 w-full mb-2"
+          className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
         />
         <input
           type="password"
           name="password"
           placeholder="Password"
           required
-          className="border p-2 w-full mb-2"
+          className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
         />
         <button
           type="submit"
@@ -30,9 +30,9 @@ export default function LogIn() {
             e.preventDefault();
             setShowOptVer(true);
           }}
-          className="bg-blue-500 mt-6 text-white py-2 px-4 rounded w-full hover:bg-blue-600"
+          className="bg-[#EEEEEE] mt-6 text-[#222831] py-2 px-4 rounded w-full  hover:bg-[#393E46] hover:text-[#EEEEEE]"
         >
-          Submit
+          Login
         </button>
         {/* </div> */}
       </form>
