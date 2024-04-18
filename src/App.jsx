@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 
 import LoadingGif from "./assets/Loading.gif";
 import SignUp from "./components/SignUp";
+import LogIn from "./components/LogIn";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: "/signup", element: <SignUp/> },
-      { path: "/login", element: "login" },
+      { path: "/login", element: <LogIn/> },
     ],
   },
 ]);
@@ -32,7 +33,7 @@ function App() {
 
   if (introAnimation === true) {
     return (
-      <div className="flex flex-col h-screen bg-[#EEEEEE]">
+      <div className="flex flex-col h-screen  bg-gray-100">
         <img className="  m-auto " src={LoadingGif} alt="Welcome" />
       </div>
     );
