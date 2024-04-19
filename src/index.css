@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 * {
-    margin: 0;
-    padding: 0;
-    background-color: #EEEEEE;
+  margin: 0;
+  padding: 0;
+  background-color: #eeeeee;
+  box-sizing: border-box;
+}
+.active {
+  color: #00adb5;
 }
