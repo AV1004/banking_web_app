@@ -4,10 +4,13 @@ import HomePage from "./components/HomePage";
 import Error from "./components/Error";
 import Root from "./components/Root";
 import { useEffect, useState } from "react";
-
 import LoadingGif from "./assets/Loading.gif";
 import SignUp from "./components/SignUp";
 import LogIn from "./components/LogIn";
+import UserHomePage from "./components/UserHomePage";
+import Transaction from "./components/Transaction";
+import History from "./components/History";
+import UserProfile from "./components/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -16,8 +19,17 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "/signup", element: <SignUp/> },
-      { path: "/login", element: <LogIn/> },
+      { path: "/signup", element: <SignUp /> },
+      { path: "/login", element: <LogIn /> },
+    ],
+  },
+  {
+    path: "/user",
+    children: [
+      { path: "home", element: <UserHomePage /> },
+      { path: "transaction", element: <Transaction /> },
+      { path: "history", element: <History /> },
+      { path: "profile", element: <UserProfile /> },
     ],
   },
 ]);
@@ -28,7 +40,7 @@ function App() {
   useEffect(() => {
     setTimeout(() => {
       setIntroAnimation(false);
-    }, 6000);
+    }, 1000);
   }, []);
 
   if (introAnimation === true) {
