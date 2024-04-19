@@ -1,4 +1,3 @@
-import { useState } from "react";
 
 export default function LogIn() {
   return (
@@ -10,6 +9,7 @@ export default function LogIn() {
         <h1 className="text-4xl tracking-wide font-light uppercase mb-8 text-center bg-[#222831] text-[#EEEEEE]">
           Login
         </h1>
+   
         <input
           type="text"
           name="email"
