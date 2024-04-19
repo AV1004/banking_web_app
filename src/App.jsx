@@ -1,13 +1,16 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-
-import HomePage from "./components/HomePage";
 import Error from "./components/Error";
 import Root from "./components/Root";
-import { useEffect, useState } from "react";
+import { lazy } from "react";
+import UserNav from "./components/UserNav";
 
-import LoadingGif from "./assets/Loading.gif";
-import SignUp from "./components/SignUp";
-import LogIn from "./components/LogIn";
+const HomePage = lazy(() => import("./components/HomePage"));
+const SignUp = lazy(() => import("./components/SignUp"));
+const LogIn = lazy(() => import("./components/LogIn"));
+const UserHomePage = lazy(() => import("./components/UserHomePage"));
+const Transaction = lazy(() => import("./components/Transaction"));
+const History = lazy(() => import("./components/History"));
+const UserProfile = lazy(() => import("./components/UserProfile"));
 
 const router = createBrowserRouter([
   {
@@ -16,30 +19,24 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "/signup", element: <SignUp/> },
-      { path: "/login", element: <LogIn/> },
+      { path: "/signup", element: <SignUp /> },
+      { path: "/login", element: <LogIn /> },
+    ],
+  },
+  {
+    path: "/user",
+    element: <UserNav />,
+    children: [
+      { path: "home", element: <UserHomePage /> },
+      { path: "transaction", element: <Transaction /> },
+      { path: "history", element: <History /> },
+      { path: "profile", element: <UserProfile /> },
     ],
   },
 ]);
 
 function App() {
-  const [introAnimation, setIntroAnimation] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIntroAnimation(false);
-    }, 6000);
-  }, []);
-
-  if (introAnimation === true) {
-    return (
-      <div className="flex flex-col h-screen  bg-gray-100">
-        <img className="  m-auto " src={LoadingGif} alt="Welcome" />
-      </div>
-    );
-  } else {
-    return <RouterProvider router={router} />;
-  }
+  return <RouterProvider router={router} />;
 }
 
 export default App;
