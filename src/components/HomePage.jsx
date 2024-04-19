@@ -8,7 +8,7 @@ export default function HomePage() {
   return (
     <Carousel
       className="rounded-xl mt-20"
-      autoplay="true"
+      autoplay={true}
       navigation={({ setActiveIndex, activeIndex, length }) => (
         <div className="absolute bottom-2 left-2/4 z-50 flex  -translate-x-2/4 gap-3">
           {new Array(length).fill("").map((_, i) => (
@@ -25,7 +25,6 @@ export default function HomePage() {
       prevArrow={({ handlePrev }) => (
         <IconButton
           variant="text"
-          color="#222831"
           size="lg"
           onClick={handlePrev}
           className="!absolute top-2/4 left-4 -translate-y-2/4 hover:bg-[#EEEEEE]"
@@ -49,7 +48,6 @@ export default function HomePage() {
       nextArrow={({ handleNext }) => (
         <IconButton
           variant="text"
-          color="#222831"
           size="lg"
           onClick={handleNext}
           className="!absolute top-2/4 !right-4 -translate-y-2/4 hover:bg-[#EEEEEE]"

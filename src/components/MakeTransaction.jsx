@@ -57,7 +57,7 @@ export default function MakeTransaction() {
               className="h-full w-full object-cover"
             />
           </CardHeader>
-          <CardBody className="bg-[#222831] rounded-r-lg">
+          <CardBody className="bg-[#222831] rounded-r-xl">
             {activeTab === "accountNo" ? (
               <form className="bg-[#222831] p-8 ">
                 <h1 className="text-4xl tracking-wide font-light  mb-8 text-center bg-[#222831] text-[#EEEEEE]">

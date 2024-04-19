@@ -24,7 +24,6 @@ function USerHomePage() {
   //   bg-[#222831]
   return (
     <div>
-
       <div className="shadow-xl shadow-gray-200 mt-3	 flex flex-col m-auto p-8  w-full text-white max-w-sm bg-[#222831] border border-gray-200 rounded-[1.75rem]  dark:bg-gray-800 dark:border-gray-700">
         <span className="bg-[#222831] ">Savings Account {"  "} (Primary)</span>
         <p className="bg-[#222831] mt-2">
@@ -60,7 +59,7 @@ function USerHomePage() {
               }}
               className="bg-[#222831] ml-5 mt-[0.80rem]"
             >
-              <BiSolidHide fill="white" className="bg-[#222831] h-8 w-8" />
+              <BiSolidHide fill="white" className="bg-[#222831]  h-8 w-8" />
             </button>
           )}
           {!showBalance && (
@@ -80,16 +79,22 @@ function USerHomePage() {
 
       <div className="flex  space-x-40 justify-center items-center mt-32">
         <NavLink to={"/user/transaction"}>
-          <button className="flex items-center p-4 rounded-xl bg-[#222831] text-white">
-            <GrTransaction fill="white" className="bg-[#222831] h-8 mr-2 w-8" />{" "}
-            Make Your Transaction{" "}
+          <button className="flex items-center p-4 rounded-xl hover:bg-[#393E46] bg-[#222831] text-white">
+            <GrTransaction
+              fill="white"
+              className="bg-[#222831]  hover:bg-[#393E46] h-8 mr-2 w-8"
+            />{" "}
+            Make Transaction{" "}
           </button>
         </NavLink>
         <NavLink to={"/user/history"}>
-        <button className="p-4 flex rounded-xl items-center bg-[#222831] text-white">
-          <GoHistory fill="white" className="bg-[#222831] h-8 mr-2 w-8" />{" "}
-          Transaction History
-        </button>
+          <button className="p-4 flex rounded-xl items-center bg-[#222831] hover:bg-[#393E46] text-white">
+            <GoHistory
+              fill="white"
+              className="bg-[#222831] hover:bg-[#393E46] h-8 mr-2 w-8"
+            />{" "}
+            Transaction History
+          </button>
         </NavLink>
       </div>
     </div>
