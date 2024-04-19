@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 export default function LogIn() {
   return (
@@ -9,7 +10,7 @@ export default function LogIn() {
         <h1 className="text-4xl tracking-wide font-light uppercase mb-8 text-center bg-[#222831] text-[#EEEEEE]">
           Login
         </h1>
-   
+
         <input
           type="text"
           name="email"
@@ -24,16 +25,18 @@ export default function LogIn() {
           required
           className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
         />
-        <button
-          type="submit"
-          onClick={(e) => {
-            e.preventDefault();
-            setShowOptVer(true);
-          }}
-          className="bg-[#EEEEEE] mt-6 text-[#222831] py-2 px-4 rounded w-full  hover:bg-[#393E46] hover:text-[#EEEEEE]"
-        >
-          Login
-        </button>
+        <Link to="/user">
+          <button
+            type="submit"
+            onClick={(e) => {
+              e.preventDefault();
+              setShowOptVer(true);
+            }}
+            className="bg-[#EEEEEE] mt-6 text-[#222831] py-2 px-4 rounded w-full  hover:bg-[#393E46] hover:text-[#EEEEEE]"
+          >
+            Login
+          </button>
+        </Link>
         {/* </div> */}
       </form>
     </div>

@@ -16,7 +16,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    errorElement: <Error />,
+    errorElement: <Error ErrorFrom={"logoutUser"} />,
     children: [
       { index: true, element: <HomePage /> },
       { path: "/signup", element: <SignUp /> },
@@ -26,6 +26,7 @@ const router = createBrowserRouter([
   {
     path: "/user",
     element: <UserNav />,
+    errorElement: <Error ErrorFrom={"loginUser"} />,
     children: [
       { index: true, element: <UserHomePage /> },
       { path: "transaction", element: <MakeTransaction /> },
