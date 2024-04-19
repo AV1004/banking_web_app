@@ -24,7 +24,6 @@ function USerHomePage() {
   //   bg-[#222831]
   return (
     <div>
-      <UserNav />
 
       <div className="shadow-xl shadow-gray-200 mt-3	 flex flex-col m-auto p-8  w-full text-white max-w-sm bg-[#222831] border border-gray-200 rounded-[1.75rem]  dark:bg-gray-800 dark:border-gray-700">
         <span className="bg-[#222831] ">Savings Account {"  "} (Primary)</span>
