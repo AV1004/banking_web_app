@@ -3,14 +3,14 @@
 .table {
     border-collapse: collapse;
     width: 100%;
-    margin-top: 5rem;
+    margin-top: 2rem;
     margin-bottom: 1rem;
   }
   
   .table th,
   .table td {
-    border: 1px solid #e2e8f0;
-    padding: 18px;
+    border: 1.1px solid #c1c9d3;
+    padding: 1rem 1rem;
   }
   
   .table th {
@@ -24,14 +24,20 @@
   
   .pagination {
     margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
   }
   
   .pagination button {
-    background-color: #4299e1;
+    background-color: #00ADB5;
     color: #fff;
     border: none;
     padding: 8px 16px;
     cursor: pointer;
+    margin-right: 1rem;
+    border-radius: 8px
+
   }
   
   .pagination button:disabled {

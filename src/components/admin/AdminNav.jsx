@@ -1,40 +1,39 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { Suspense } from "react";
-import Loader from "./Loader";
-export default function UserNav() {
+import Loader from "../Loader";
+
+export default function AdminNav() {
   return (
     <Suspense fallback={<Loader />}>
       <nav className="flex justify-between mb-6 bg-[#222831] p-4 text-xl ">
         <div className="bg-[#222831]">
-          <ul className=" flex space-x-8 bg-[#222831]  ">
-            <NavLink
-              className="mr-12 hover:text-[#00ADB5] text-white bg-[#222831]"
-              to={""}
-            >
-              XYZ Banking
+          <ul className=" flex space-x-8 bg-[#222831] text-[#00ADB5]  ">
+            <NavLink to={"/admin"} className="text-white hover:text-[#00ADB5]  bg-[#222831]">
+            XYZ Banking
             </NavLink>
             <NavLink
-              to={"/user/transaction"}
+              to={"/admin/transaction"}
               className="text-white hover:text-[#00ADB5]  bg-[#222831]"
             >
               Transaction
             </NavLink>
             <NavLink
-              to={"/user/history"}
+              to={"/admin/users"}
               className="hover:text-[#00ADB5] text-white bg-[#222831]"
             >
-              History
+              All Users
             </NavLink>
           </ul>
         </div>
         <ul className="bg-[#222831] mr-7 space-x-9">
           <NavLink
-            to={"/user/profile"}
+            to={"/admin/login"}
             className=" hover:text-[#00ADB5] text-white bg-[#222831]"
           >
-            Profile
-          </NavLink>
+            LogIn
+          </NavLink>    
+          
           <NavLink
             to={"/"}
             className=" hover:text-[#00ADB5] text-white bg-[#222831]"
@@ -43,7 +42,7 @@ export default function UserNav() {
           </NavLink>
         </ul>
       </nav>
-      <Outlet/>
+      <Outlet />
     </Suspense>
   );
 }

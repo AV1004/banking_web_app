@@ -14,6 +14,7 @@ const UserProfile = () => {
   const data = React.useMemo(
     () => [
       {
+        
         type: "Received",
         name: "John",
         amount: "10000",
@@ -34,6 +35,8 @@ const UserProfile = () => {
 
   const columns = React.useMemo(
     () => [
+      { Header: "Sr no.", accessor: "srno" },
+
       { Header: "Type", accessor: "type" },
       { Header: "Name", accessor: "name" },
       {
@@ -140,7 +143,7 @@ const UserProfile = () => {
       </button>
       {showHistory && (
         <div ref={tableRef}>
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} max={2}/>
         </div>
       )}
       {showHistory && <NavLink to={"/user/history"}><button className="m-auto  p-2 flex rounded-xl items-center  hover:opacity-80 text-[#222831]">Read More..</button></NavLink>}
