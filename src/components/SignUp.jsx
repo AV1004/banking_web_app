@@ -60,10 +60,10 @@ function SignUp() {
                 Personal Details
               </h2>
               <input
-                type="text"
-                name="username"
+                type="email"
+                name="email"
                 required
-                placeholder="Username"
+                placeholder="Email Address"
                 className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
               />
               <input
