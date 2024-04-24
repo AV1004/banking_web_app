@@ -1,97 +1,167 @@
-import React, { useState } from "react";
+import React, { useState, version } from "react";
+import { startRegister, verifyEmail, verifySign } from "../https/auth";
 
-function SignUp() {
+function SignUp({ keyPairs }) {
   const [showOtpVer, setShowOptVer] = useState(false);
+  const [email, setEmail] = useState("");
+  const [userId, setUserId] = useState("");
+
+  const submitHandlerRegister = async (event) => {
+    event.preventDefault();
+    setShowOptVer(true);
+
+    const fd = new FormData(event.target);
+
+    const acquisitionChannel = fd.getAll("acquisition");
+    const data = Object.fromEntries(fd.entries());
+    data.acquisition = acquisitionChannel;
+
+    setEmail(data.email);
+
+    const finalData = {
+      deviceDetails: {
+        id: data.deviceId,
+        os: data.os,
+        version: data.version,
+        manufacturer: data.manufacturer,
+        model: data.model,
+      },
+      email: data.email,
+      phoneNo: data.phone,
+      password: data.password,
+      privateKey: keyPairs.privateKey,
+    };
+
+    try {
+      const startRegRes = await startRegister(finalData);
+      const signature = startRegRes.data.signature;
+      setUserId(startRegRes.data.userId);
+
+      // verification of data using digital signature
+      await verifySign({
+        phoneNo: data.phone,
+        signature: signature,
+        publicKey: keyPairs.publicKey,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const submitHandlerOtp = async (event) => {
+    event.preventDefault();
+
+    const fd = new FormData(event.target);
+    const acquisitionChannel = fd.getAll("acquisition");
+    const data = Object.fromEntries(fd.entries());
+    data.acquisition = acquisitionChannel;
+
+    try {
+      const resOfOtpVerification = await verifyEmail({
+        otp: data.otp,
+        userId: userId,
+      });
+      console.log(resOfOtpVerification);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="flex justify-center items-center mt-9 ">
-      <form className=" p-8 shadow-md w-96 rounded-2xl bg-[#222831] text-[#EEEEEE]">
-        {/* Device Details Section */}
-        {!showOtpVer && (
-          <div className="mb-4 bg-[#222831]">
-            <h1 className="text-4xl tracking-wide font-light uppercase mb-8 text-center bg-[#222831] text-[#EEEEEE]">
-              Registration
-            </h1>
-            <h2 className="text-lg mb-2 bg-[#222831] text-[#EEEEEE]">
-              Device Details
-            </h2>
-            <input
-              type="text"
-              name="deviceId"
-              required
-              placeholder="Device ID"
-              className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
-            />
-            <input
-              type="text"
-              name="os"
-              placeholder="OS"
-              required
-              className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
-            />
-            <input
-              type="text"
-              name="version"
-              placeholder="Version"
-              required
-              className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
-            />
-            <input
-              type="text"
-              name="manufacturer"
-              required
-              placeholder="Manufacturer"
-              className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
-            />
-            <input
-              type="text"
-              name="model"
-              placeholder="Model"
-              className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
-              required
-            />
-          </div>
-        )}
-
-        {/* Personal Details Section */}
-        {!showOtpVer && (
-          <div className="bg-[#222831] text-[#EEEEEE]">
-            <div className="mb-4 bg-[#222831] text-[#EEEEEE]">
-              <h2 className="text-lg  mb-2 bg-[#222831] text-[#EEEEEE]">
-                Personal Details
+      <div className=" p-8 shadow-md w-96 rounded-2xl bg-[#222831] text-[#EEEEEE]">
+        <form onSubmit={submitHandlerRegister} className="bg-[#222831]">
+          {/* Device Details Section */}
+          {!showOtpVer && (
+            <div className="mb-4 bg-[#222831]">
+              <h1 className="text-4xl tracking-wide font-light uppercase mb-8 text-center bg-[#222831] text-[#EEEEEE]">
+                Registration
+              </h1>
+              <h2 className="text-lg mb-2 bg-[#222831] text-[#EEEEEE]">
+                Device Details
               </h2>
               <input
-                type="email"
-                name="email"
+                type="text"
+                name="deviceId"
                 required
-                placeholder="Email Address"
+                placeholder="Device ID"
                 className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
               />
               <input
-                type="password"
+                type="text"
+                name="os"
+                placeholder="OS"
                 required
-                name="password"
-                placeholder="Password"
                 className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
               />
+              <input
+                type="text"
+                name="version"
+                placeholder="Version"
+                required
+                className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
+              />
+              <input
+                type="text"
+                name="manufacturer"
+                required
+                placeholder="Manufacturer"
+                className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
+              />
+              <input
+                type="text"
+                name="model"
+                placeholder="Model"
+                className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
+                required
+              />
             </div>
-            {/* GetOtp Button */}
-            <button
-              type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-                setShowOptVer(true);
-              }}
-              className="bg-[#EEEEEE] text-[#222831]  py-2 px-4 rounded w-full hover:bg-[#393E46] hover:text-[#EEEEEE]"
-            >
-              Get OTP
-            </button>
-          </div>
-        )}
+          )}
+
+          {/* Personal Details Section */}
+          {!showOtpVer && (
+            <div className="bg-[#222831] text-[#EEEEEE]">
+              <div className="mb-4 bg-[#222831] text-[#EEEEEE]">
+                <h2 className="text-lg  mb-2 bg-[#222831] text-[#EEEEEE]">
+                  Personal Details
+                </h2>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="Email Address"
+                  className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
+                />
+                <input
+                  type="number"
+                  name="phone"
+                  required
+                  placeholder="Moblie Number"
+                  className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
+                />
+                <input
+                  type="password"
+                  required
+                  name="password"
+                  placeholder="Password"
+                  className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
+                />
+              </div>
+              {/* GetOtp Button */}
+              <button
+                type="submit"
+                className="bg-[#EEEEEE] text-[#222831]  py-2 px-4 rounded w-full hover:bg-[#393E46] hover:text-[#EEEEEE]"
+              >
+                Get OTP
+              </button>
+            </div>
+          )}
+        </form>
         {/* // Otp Verificartion */}
 
         {showOtpVer && (
           <div className="mb-4 w-[100%] bg-[#222831] ">
-            <form className="bg-[#222831]">
+            <form onSubmit={submitHandlerOtp} className="bg-[#222831]">
               <div className="bg-[#222831]">
                 <button
                   onClick={(e) => {
@@ -126,7 +196,7 @@ function SignUp() {
                   className="border p-4 w-full mt-4 mb-4 bg-[#222831] text-[#EEEEEE]"
                 />
                 <span className="font-extralight text-sm font-sans mr-4 bg-[#222831] text-[#EEEEEE]">
-                  Otp Send to this Dummy_email.....{" "}
+                  Otp Send to this {email}
                 </span>
 
                 <div className=" bg-[#222831] text-[#EEEEEE]">
@@ -142,17 +212,14 @@ function SignUp() {
               {/* Submit Button */}
               <button
                 type="submit"
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
                 className="bg-[#EEEEEE] text-[#222831] py-2  px-4 rounded w-full mt-7  hover:bg-[#393E46] hover:text-[#EEEEEE]"
               >
-                Register
+                Verify Email
               </button>
             </form>
           </div>
         )}
-      </form>
+      </div>
     </div>
   );
 }
