@@ -1,7 +1,8 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Error from "./components/Error";
 import Root from "./components/Root";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
+import AuthOutlet from "@auth-kit/react-router/AuthOutlet";
 
 import { lazy, useEffect, useState } from "react";
 import { fetchKeyPairs } from "./https/auth";
@@ -26,41 +27,41 @@ function App() {
   const [error, setError] = useState("");
   const [keyPairs, setKeyPairs] = useState({ publicKey: "", privateKey: "" });
 
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Root />,
-      errorElement: <Error ErrorFrom={"logoutUser"} error={error} />,
-      children: [
-        { index: true, element: <HomePage /> },
-        { path: "/signup", element: <SignUp keyPairs={keyPairs} /> },
-        { path: "/login", element: <LogIn /> },
-      ],
-    },
-    {
-      path: "/user",
-      element: <UserNav />,
-      errorElement: <Error ErrorFrom={"loginUser"} />,
-      children: [
-        { index: true, element: <UserHomePage /> },
-        { path: "transaction", element: <MakeTransaction /> },
-        { path: "history", element: <History /> },
-        { path: "profile", element: <UserProfile /> },
-      ],
-    },
-    {
-      path: "/admin",
-      element: <AdminNav />,
-      errorElement: <Error ErrorFrom={"loginUser"} />,
-      children: [
-        { index: true, element: <AdminHome /> },
-        { path: "transaction", element: <Transactions /> },
-        { path: "users", element: <Users /> },
-        { path: "login", element: <AdminLogin /> },
-        { path: "users/edituser", element: <EditUser /> },
-      ],
-    },
-  ]);
+  // const router = createBrowserRouter([
+  //   {
+  //     path: "/",
+  //     element: <Root />,
+  //     errorElement: <Error ErrorFrom={"logoutUser"} error={error} />,
+  //     children: [
+  //       { index: true, element: <HomePage /> },
+  //       { path: "/signup", element: <SignUp keyPairs={keyPairs} /> },
+  //       { path: "/login", element: <LogIn /> },
+  //     ],
+  //   },
+  //   {
+  //     path: "/user",
+  //     element: <UserNav />,
+  //     errorElement: <Error ErrorFrom={"loginUser"} />,
+  //     children: [
+  //       { index: true, element: <UserHomePage /> },
+  //       { path: "transaction", element: <MakeTransaction /> },
+  //       { path: "history", element: <History /> },
+  //       { path: "profile", element: <UserProfile /> },
+  //     ],
+  //   },
+  //   {
+  //     path: "/admin",
+  //     element: <AdminNav />,
+  //     errorElement: <Error ErrorFrom={"loginUser"} />,
+  //     children: [
+  //       { index: true, element: <AdminHome /> },
+  //       { path: "transaction", element: <Transactions /> },
+  //       { path: "users", element: <Users /> },
+  //       { path: "login", element: <AdminLogin /> },
+  //       { path: "users/edituser", element: <EditUser /> },
+  //     ],
+  //   },
+  // ]);
 
   useEffect(() => {
     async function fetchPairsOfKey() {
@@ -78,7 +79,42 @@ function App() {
   }, []);
 
   return (
-        <RouterProvider router={router} />
+    <Routes>
+      <Route
+        path="/"
+        element={<Root />}
+        errorElement={<Error ErrorFrom={"logoutUser"} error={error} />}
+      >
+        <Route index={true} element={<HomePage />} />
+        <Route path="/signup" element={<SignUp keyPairs={keyPairs} />} />
+        <Route path="/login" element={<LogIn />} />
+      </Route>
+
+      <Route element={<AuthOutlet fallbackPath="/login" />}>
+        <Route
+          path="/user"
+          element={<UserNav />}
+          errorElement={<Error ErrorFrom={"loginUser"} error={error} />}
+        >
+          <Route index={true} element={<UserHomePage />} />
+          <Route path="transaction" element={<MakeTransaction />} />
+          <Route path="history" element={<History />} />
+          <Route path="profile" element={<UserProfile />} />
+        </Route>
+      </Route>
+
+      <Route
+        path="/admin"
+        element={<AdminNav />}
+        errorElement={<Error ErrorFrom={"loginUser"} error={error} />}
+      >
+        <Route index={true} element={<AdminHome />} />
+        <Route path="transaction" element={<Transactions />} />
+        <Route path="users" element={<Users />} />
+        <Route path="login" element={<AdminLogin />} />
+        <Route path="users/edituser" element={<EditUser />} />
+      </Route>
+    </Routes>
   );
 }
 

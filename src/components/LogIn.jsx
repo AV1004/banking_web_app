@@ -1,28 +1,44 @@
-import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { server } from "../main";
 import { ToastContainer, toast } from "react-toastify";
+import { login } from "../https/auth";
 
-export default function LogIn() {
+import useSignIn from "react-auth-kit/hooks/useSignIn";
+import { useNavigate } from "react-router-dom";
+
+export default function LogIn({ loginHandler }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const signIn = useSignIn();
+  const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(
-        `${server}/users/login`,
-        { email, password },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-      toast.success(data.message);
-      console.log("success");
+      // const { data } = await axios.post(
+      //   `${server}/users/login`,
+      //   { email, password },
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     withCredentials: true,
+      //   }
+      // );
+
+      login({ email: email, password: password })
+        .then((resData) => {
+          signIn({
+            auth: {
+              token: resData.token,
+              type: "Bearer",
+            },
+            userState: { userId: resData.userId },
+          });
+        })
+        .then(() => {
+          navigate("/user/profile");
+        });
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);

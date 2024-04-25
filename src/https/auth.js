@@ -1,5 +1,3 @@
-
-
 // Function get publick and digital key pairs
 export const fetchKeyPairs = async () => {
   const res = await fetch("http://localhost:5000/users/keyGeneration");
@@ -56,5 +54,23 @@ export const verifyEmail = async (data) => {
   if (!res.ok) {
     throw new Error("Email verification failed!");
   }
+  return resData;
+};
+
+export const login = async (data) => {
+  const res = await fetch("http://localhost:5000/users/login", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  const resData = await res.json();
+
+  if (res.status !== 200) {
+    return resData.message;
+  }
+
   return resData;
 };
