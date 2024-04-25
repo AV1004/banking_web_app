@@ -3,7 +3,13 @@ import { CgProfile } from "react-icons/cg";
 import Table from "./Table";
 import { GoHistory } from "react-icons/go";
 import { NavLink } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+
 const UserProfile = () => {
+  useEffect(() => {
+    toast.info("Please Complete Your Profile!");
+  }, []);
+
   const fileInputRef = useRef(null);
   const tableRef = useRef(null);
   const handleButtonClick = () => {
@@ -14,7 +20,6 @@ const UserProfile = () => {
   const data = React.useMemo(
     () => [
       {
-        
         type: "Received",
         name: "John",
         amount: "10000",
@@ -143,10 +148,28 @@ const UserProfile = () => {
       </button>
       {showHistory && (
         <div ref={tableRef}>
-          <Table columns={columns} data={data} max={2}/>
+          <Table columns={columns} data={data} max={2} />
         </div>
       )}
-      {showHistory && <NavLink to={"/user/history"}><button className="m-auto  p-2 flex rounded-xl items-center  hover:opacity-80 text-[#222831]">Read More..</button></NavLink>}
+      {showHistory && (
+        <NavLink to={"/user/history"}>
+          <button className="m-auto  p-2 flex rounded-xl items-center  hover:opacity-80 text-[#222831]">
+            Read More..
+          </button>
+        </NavLink>
+      )}
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+      />
     </>
   );
 };

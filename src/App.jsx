@@ -1,6 +1,8 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Error from "./components/Error";
 import Root from "./components/Root";
+import 'react-toastify/dist/ReactToastify.css';
+
 import { lazy, useEffect, useState } from "react";
 import { fetchKeyPairs } from "./https/auth";
 
@@ -75,7 +77,9 @@ function App() {
     fetchPairsOfKey();
   }, []);
 
-  return <RouterProvider router={router} />;
+  return (
+        <RouterProvider router={router} />
+  );
 }
 
 export default App;
