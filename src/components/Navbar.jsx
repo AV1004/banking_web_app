@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 
 export default function Navbar() {
   return (
@@ -24,19 +23,9 @@ export default function Navbar() {
               Login
             </NavLink>
           </li>
-          <button onClick={() => toast.s("🦄 Wow so easy!")}>l</button>
         </ul>
       </nav>
-      <ToastContainer
-        position="top-center"
-        autoClose={1000}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-        theme="light"
-      />
+      
     </>
   );
 }

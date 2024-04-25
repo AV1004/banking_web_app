@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { startRegister, verifyEmail, verifySign } from "../https/auth";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { Context } from "../main";
 
 function SignUp({ keyPairs }) {
-
   const [showOtpVer, setShowOptVer] = useState(false);
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState("");
-  const [sendingOtp, setSendingOtp] = useState(false);
+  const { setIsAuthenticated, loading, setLoading } = useContext(Context);
 
   const navigate = useNavigate();
 
@@ -37,11 +37,11 @@ function SignUp({ keyPairs }) {
     };
 
     try {
-      setSendingOtp(true);
+      setLoading(true);
       const startRegRes = await startRegister(finalData);
       const signature = startRegRes.data.signature;
       setUserId(startRegRes.data.userId);
-      
+
       // verification of data using digital signature
       await verifySign({
         phoneNo: data.phone,
@@ -68,11 +68,13 @@ function SignUp({ keyPairs }) {
         otp: data.otp,
         userId: userId,
       });
+      setIsAuthenticated(true);
       toast.success("Your Email Verfied Successfully!");
       navigate("/user/profile");
     } catch (err) {
       console.log(err);
       toast.error("some erro occured in verification!");
+      setIsAuthenticated(false);
     }
   };
 
@@ -160,10 +162,10 @@ function SignUp({ keyPairs }) {
                 {/* GetOtp Button */}
                 <button
                   type="submit"
-                  disabled={sendingOtp}
+                  disabled={loading}
                   className="disabled:bg-[#222831] disabled:text-[#EEEEEE] bg-[#EEEEEE] text-[#222831]  py-2 px-4 rounded w-full hover:bg-[#393E46] hover:text-[#EEEEEE]"
-                > 
-                {sendingOtp ? "Sending your otp" : "Get OTP"}
+                >
+                  {loading ? "Sending your otp" : "Get OTP"}
                 </button>
               </div>
             )}
