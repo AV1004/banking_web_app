@@ -4,7 +4,8 @@ export const fetchKeyPairs = async () => {
   const resData = await res.json();
 
   if (!res.ok) {
-    throw new Error("Failed to fetch keypairs!");
+    resData.message = "Failed to fetch keypairs!";
+    return resData.message;
   }
   return resData;
 };
@@ -19,8 +20,8 @@ export const startRegister = async (data) => {
   });
   const resData = await res.json();
 
-  if (!res.ok) {
-    throw new Error("Registration Failed!");
+  if (!res.ok || res.status !== 250) {
+    return resData.message;
   }
   return resData;
 };
@@ -36,8 +37,10 @@ export const verifySign = async (data) => {
   const resData = await res.json();
 
   if (!res.ok) {
-    throw new Error("Digital Signature verification failed!");
+    resData.message = "Digital Signature verification failed!";
+    return resData.message;
   }
+
   return resData;
 };
 
@@ -51,9 +54,10 @@ export const verifyEmail = async (data) => {
   });
   const resData = await res.json();
 
-  if (!res.ok) {
-    throw new Error("Email verification failed!");
+  if (res.status !== 200) {
+    return resData.message;
   }
+
   return resData;
 };
 
