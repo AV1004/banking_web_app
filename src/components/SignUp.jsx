@@ -67,13 +67,20 @@ function SignUp({ keyPairs }) {
       const resOfOtpVerification = await verifyEmail({
         otp: data.otp,
         userId: userId,
-      });
-      setIsAuthenticated(true);
-      toast.success("Your Email Verfied Successfully!");
-      navigate("/user/profile");
+      })
+        .then(() => {
+          toast.success("Your Email Verfied Successfully!");
+        })
+        .then(() => {
+          setTimeout(() => {
+            navigate("/login");
+          }, 3000);
+        });
+
+      // setIsAuthenticated(true);
     } catch (err) {
       console.log(err);
-      toast.error("some erro occured in verification!");
+      toast.error("some error occured in verification!");
       setIsAuthenticated(false);
     }
   };
