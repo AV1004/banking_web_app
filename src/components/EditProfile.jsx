@@ -25,11 +25,7 @@ export default function EditProfile() {
 
       const submitHandler = (e)=>{
         e.preventDefault()
-        setName(e.target.value)
-        setAddress(e.target.value)
-        setDob(e.target.value)
-        setUpiPin(e.target.value)
-
+    
         completeProfile({image,name,address,dob,upiPin}).then(resData=>console.log(resData))
       }
   return (
