@@ -1,33 +1,58 @@
 import React, { useState } from "react";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import { completeProfile } from "../https/auth";
-
+import { useNavigate } from "react-router-dom";
 
 export default function EditProfile() {
+  const auth = useAuthUser();
+  const authHeader = useAuthHeader();
+  const navigate = useNavigate();
 
-    const [image, setImage] = useState("");
-    const [name, setName] = useState("");
-    const [address, setAddress] = useState("");
-    const [dob, setDob] = useState("");
-    const [upiPin, setUpiPin] = useState("");
+  const [image, setImage] = useState("");
 
-    const changeImageHandler = (e) => {
-        const file= e.target.files?.[0];
-    
-        const reader= new FileReader();
-    
-        if (file) {
-          reader.readAsDataURL(file);
-          reader.onloadend = () => {
-            if (typeof reader.result === "string") setImage(reader.result);
-          };
-        }
+  const changeImageHandler = (e) => {
+    const file = e.target.files?.[0];
+
+    const reader = new FileReader();
+
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        if (typeof reader.result === "string") setImage(reader.result);
       };
+    }
+  };
 
-      const submitHandler = (e)=>{
-        e.preventDefault()
-    
-        completeProfile({image,name,address,dob,upiPin}).then(resData=>console.log(resData))
-      }
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+
+    const acquisitionChannel = fd.getAll("acquisition");
+    const data = Object.fromEntries(fd.entries());
+    data.acquisition = acquisitionChannel;
+
+    const finalData = {
+      userId: auth.userId,
+      name: data.name,
+      address: data.address,
+      dob: data.dob,
+      bank: data.bank,
+      upipin: data.upipin,
+      image: data.image,
+    };
+
+    completeProfile(finalData, authHeader)
+      .then((resData) => {
+        console.log(resData);
+      })
+      .then(() => {
+        navigate("/user/profile");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className="flex justify-center items-center mt-9 ">
       <div className=" p-8 shadow-md w-96 rounded-2xl bg-[#222831] text-[#EEEEEE]">
@@ -37,22 +62,24 @@ export default function EditProfile() {
               Complete Profile{" "}
             </h1>
 
-            {image && <img className="object-cover h-32 w-32 m-auto mb-5 rounded-[50%]" src={image} alt="New Image" />}
+            {image && (
+              <img
+                className="object-cover h-32 w-32 m-auto mb-5 rounded-[50%]"
+                src={image}
+                alt="New Image"
+              />
+            )}
 
             <input
               type="file"
               name="image"
               required
-              onChange={changeImageHandler}
               className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
             />
             <input
               type="text"
               name="name"
               required
-            value={name}
-                onChange={(e) => setName(e.target.value)}
-
               placeholder="Name"
               className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
             />
@@ -60,27 +87,26 @@ export default function EditProfile() {
               type="text"
               name="address"
               placeholder="Address"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-
               required
               className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
             />
             <input
               type="date"
-              value={dob}
-              onChange={(e) => setDob(e.target.value)}
-
-              name="dob"
               placeholder="Date Of Birth"
+              name="dob"
               required
               className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
             />
             <input
-              type="number"
+              type="text"
+              name="bank"
+              placeholder="Enter your bank name"
+              required
+              className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
+            />
+            <input
+              type="password"
               name="upipin"
-              value={upiPin}
-              onChange={(e) => setUpiPin(e.target.value)}
               required
               placeholder="Upi Pin"
               className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"

@@ -78,13 +78,23 @@ export const login = async (data) => {
 
   return resData;
 };
-export const completeProfile = async (data) => {
-  const res = await fetch("http://localhost:5000/users/completeProfie", {
+
+export const completeProfile = async (data, authHeader) => {
+  const formData = new FormData();
+  formData.append("userId", data.userId);
+  formData.append("name", data.name);
+  formData.append("address", data.address);
+  formData.append("dob", data.dob);
+  formData.append("bank", data.bank);
+  formData.append("upipin", data.upipin);
+  formData.append("image", data.image);
+
+  const res = await fetch("http://localhost:5000/users/completeProfile", {
     method: "POST",
     headers: {
-      "Content-type": "application/json",
+      Authorization: authHeader,
     },
-    body: JSON.stringify(data),
+    body: formData,
   });
 
   const resData = await res.json();
@@ -96,4 +106,21 @@ export const completeProfile = async (data) => {
   return resData;
 };
 
+export const fetchUser = async (userId, authHeader) => {
+  const res = await fetch(
+    "http://localhost:5000/users/getProfileDetails/" + userId,
+    {
+      headers: {
+        Authorization: authHeader,
+      },
+    }
+  );
 
+  const resData = await res.json();
+
+  if (res.status !== 200) {
+    throw Error(resData.message);
+  }
+
+  return resData;
+};

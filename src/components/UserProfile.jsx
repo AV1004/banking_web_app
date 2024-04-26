@@ -4,10 +4,28 @@ import Table from "./Table";
 import { GoHistory } from "react-icons/go";
 import { NavLink } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { fetchUser } from "../https/auth";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 const UserProfile = () => {
+  const auth = useAuthUser();
+  const authHeader = useAuthHeader();
+
+  const [userDetails, setUserDetails] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [DOB, setDOB] = useState("");
+
   useEffect(() => {
-    toast.info("Please Complete Your Profile!");
+    fetchUser(auth.userId, authHeader)
+      .then((resData) => {
+        setUserDetails(resData.user);
+        setImageUrl("http://localhost:5000/" + resData.user.image);
+        setDOB(resData.user.dob.split("T")[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const fileInputRef = useRef(null);
@@ -79,18 +97,15 @@ const UserProfile = () => {
   return (
     <>
       <div className="rounded-xl max-w-sm mx-auto  overflow-hidden shadow-xl">
-        <div className="text-center my-4 rounded-xl">
-          <button className="mt-4" onClick={handleButtonClick}>
-            <CgProfile className="h-28 w-28" />
-          </button>
-          <input
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            style={{ display: "none" }}
+        <div className="text-center p-10 align-middle my-4 rounded-xl">
+          <img
+            className="h-52 w-80 rounded-full object-cover object-center"
+            src={imageUrl}
+            alt="nature image"
           />
+
           <h3 className="font-serif uppercase mt-3 font-bold text-2xl text-gray-800 dark:text-white mb-1">
-            User Name
+            {userDetails.name}
           </h3>
         </div>
 
@@ -98,27 +113,22 @@ const UserProfile = () => {
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <span className="text-sm font-medium text-gray-500">Bank</span>
             <span className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              SBI{" "}
+              {userDetails.bank}
             </span>
           </div>
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <span className="text-sm font-medium text-gray-500">Ac no.</span>
             <span className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              123456789{" "}
+              {userDetails._id}
             </span>
           </div>
-          <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <span className="text-sm font-medium text-gray-500">Transaction Pass</span>
-            <span className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              7856{" "}
-            </span>
-          </div>
+
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <span className="text-sm font-medium text-gray-500">
               Email address
             </span>
             <span className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              p@example.com
+              {userDetails.email}
             </span>
           </div>
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -126,15 +136,13 @@ const UserProfile = () => {
               Phone number
             </span>
             <span className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              987456321
+              {userDetails.phone}
             </span>
           </div>
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <span className="text-sm font-medium text-gray-500">Address</span>
             <span className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              123 Main St
-              <br />
-              Anytown, USA 12345
+              {userDetails.address}
             </span>
           </div>
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -143,7 +151,7 @@ const UserProfile = () => {
               Date Of Birth
             </span>
             <span className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              12/3/2004
+              {DOB}
             </span>
           </div>
         </div>
