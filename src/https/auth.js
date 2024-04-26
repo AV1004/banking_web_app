@@ -106,15 +106,20 @@ export const completeProfile = async (data, authHeader) => {
   return resData;
 };
 
-export const fetchUser = async (userId, authHeader) => {
-  const res = await fetch(
-    "http://localhost:5000/users/getProfileDetails/" + userId,
-    {
-      headers: {
-        Authorization: authHeader,
-      },
-    }
-  );
+export const fetchUser = async (userId, authHeader, email) => {
+  let url;
+  if (userId === null) {
+    url = "http://localhost:5000/users/getProfileDetailsUsingEmail/" + email;
+  }
+  if (email === null) {
+    url = "http://localhost:5000/users/getProfileDetails/" + userId;
+  }
+
+  const res = await fetch(url, {
+    headers: {
+      Authorization: authHeader,
+    },
+  });
 
   const resData = await res.json();
 

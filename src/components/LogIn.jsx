@@ -1,15 +1,20 @@
 import { useContext, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { login } from "../https/auth";
+import { fetchUser, login } from "../https/auth";
 
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../main";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 export default function LogIn({ loginHandler }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {loading, setLoading  }=useContext(Context)
+  const { loading, setLoading } = useContext(Context);
+
+  const auth = useAuthUser();
+  const authHeader = useAuthHeader();
 
   const signIn = useSignIn();
   const navigate = useNavigate();
@@ -27,7 +32,7 @@ export default function LogIn({ loginHandler }) {
     //     withCredentials: true,
     //   }
     // );
-    setLoading(true)
+    setLoading(true);
     login({ email: email, password: password })
       .then((resData) => {
         signIn({
@@ -36,17 +41,28 @@ export default function LogIn({ loginHandler }) {
             type: "Bearer",
           },
           userState: { userId: resData.userId },
-        })
-        console.log(resData)
-        setLoading(false)
-        return resData
+        });
+        console.log(resData);
+        setLoading(false);
       })
-      .then((resData) => {
-        toast.success(resData.message);
-        navigate("/user/editprofile");
+      .then(() => {
+        fetchUser(null, authHeader, email).then((resData) => {
+          if (
+            resData.user.name === null ||
+            resData.user.address === null ||
+            resData.user.dob === null ||
+            resData.user.bank === null ||
+            resData.user.upipin === null ||
+            resData.user.image === null
+          ) {
+            navigate("/user/editprofile");
+          } else {
+            navigate("/user/profile");
+          }
+        });
       })
       .catch((err) => {
-        toast.error(err)
+        toast.error(err);
         console.log(err);
       });
   };
@@ -86,7 +102,6 @@ export default function LogIn({ loginHandler }) {
           <button
             type="submit"
             disabled={loading}
-
             className="disabled:bg-[#222831] disabled:text-[#EEEEEE] bg-[#EEEEEE] mt-6 text-[#222831] py-2 px-4 rounded w-full  hover:bg-[#393E46] hover:text-[#EEEEEE]"
           >
             {loading ? "Logging In" : " Login"}

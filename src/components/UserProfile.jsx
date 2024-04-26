@@ -17,7 +17,7 @@ const UserProfile = () => {
   const [DOB, setDOB] = useState("");
 
   useEffect(() => {
-    fetchUser(auth.userId, authHeader)
+    fetchUser(auth.userId, authHeader, null)
       .then((resData) => {
         setUserDetails(resData.user);
         setImageUrl("http://localhost:5000/" + resData.user.image);
@@ -101,7 +101,7 @@ const UserProfile = () => {
           <img
             className="h-52 w-80 rounded-full object-cover object-center"
             src={imageUrl}
-            alt="nature image"
+            alt="Profile Pic"
           />
 
           <h3 className="font-serif uppercase mt-3 font-bold text-2xl text-gray-800 dark:text-white mb-1">
