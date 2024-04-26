@@ -96,9 +96,21 @@ const UserProfile = () => {
 
         <div className="sm:divide-y sm:divide-gray-200 rounded-xl ">
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <span className="text-sm font-medium text-gray-500">Bank</span>
+            <span className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              SBI{" "}
+            </span>
+          </div>
+          <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <span className="text-sm font-medium text-gray-500">Ac no.</span>
             <span className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
               123456789{" "}
+            </span>
+          </div>
+          <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <span className="text-sm font-medium text-gray-500">Transaction Pass</span>
+            <span className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              7856{" "}
             </span>
           </div>
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

@@ -21,47 +21,12 @@ const Transactions = lazy(() => import("./components/admin/Transactions"));
 const Users = lazy(() => import("./components/admin/Users"));
 const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
 const EditUser = lazy(() => import("./components/admin/EditUser"));
+const EditProfile = lazy(() => import("./components/EditProfile"));
 
 function App() {
   // Error
   const [error, setError] = useState("");
   const [keyPairs, setKeyPairs] = useState({ publicKey: "", privateKey: "" });
-
-  // const router = createBrowserRouter([
-  //   {
-  //     path: "/",
-  //     element: <Root />,
-  //     errorElement: <Error ErrorFrom={"logoutUser"} error={error} />,
-  //     children: [
-  //       { index: true, element: <HomePage /> },
-  //       { path: "/signup", element: <SignUp keyPairs={keyPairs} /> },
-  //       { path: "/login", element: <LogIn /> },
-  //     ],
-  //   },
-  //   {
-  //     path: "/user",
-  //     element: <UserNav />,
-  //     errorElement: <Error ErrorFrom={"loginUser"} />,
-  //     children: [
-  //       { index: true, element: <UserHomePage /> },
-  //       { path: "transaction", element: <MakeTransaction /> },
-  //       { path: "history", element: <History /> },
-  //       { path: "profile", element: <UserProfile /> },
-  //     ],
-  //   },
-  //   {
-  //     path: "/admin",
-  //     element: <AdminNav />,
-  //     errorElement: <Error ErrorFrom={"loginUser"} />,
-  //     children: [
-  //       { index: true, element: <AdminHome /> },
-  //       { path: "transaction", element: <Transactions /> },
-  //       { path: "users", element: <Users /> },
-  //       { path: "login", element: <AdminLogin /> },
-  //       { path: "users/edituser", element: <EditUser /> },
-  //     ],
-  //   },
-  // ]);
 
   useEffect(() => {
     async function fetchPairsOfKey() {
@@ -100,6 +65,7 @@ function App() {
           <Route path="transaction" element={<MakeTransaction />} />
           <Route path="history" element={<History />} />
           <Route path="profile" element={<UserProfile />} />
+          <Route path="editprofile" element={<EditProfile />} />
         </Route>
       </Route>
 

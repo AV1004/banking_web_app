@@ -1,8 +1,19 @@
 import React from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, useNavigate, Outlet } from "react-router-dom";
 import { Suspense } from "react";
 import Loader from "./Loader";
+import useSignOut from "react-auth-kit/hooks/useSignOut";
+
 export default function UserNav() {
+  const signOut = useSignOut();
+  const Navigate = useNavigate()
+
+  const logOutHandler = (e) => {
+    e.preventDefault();
+    signOut()
+    Navigate("/")
+  };
+
   return (
     <Suspense fallback={<Loader />}>
       <nav className="flex justify-between mb-6 bg-[#222831] p-4 text-xl ">
@@ -30,20 +41,27 @@ export default function UserNav() {
         </div>
         <ul className="bg-[#222831] mr-7 space-x-9">
           <NavLink
+            to={"/user/editprofile"}
+            className=" hover:text-[#00ADB5] text-white bg-[#222831]"
+          >
+            Edit Profile
+          </NavLink>
+          <NavLink
             to={"/user/profile"}
             className=" hover:text-[#00ADB5] text-white bg-[#222831]"
           >
             Profile
           </NavLink>
-          <NavLink
-            to={"/"}
+
+          <button
             className=" hover:text-[#00ADB5] text-white bg-[#222831]"
+            onClick={logOutHandler}
           >
             Logout
-          </NavLink>
+          </button>
         </ul>
       </nav>
-      <Outlet/>
+      <Outlet />
     </Suspense>
   );
 }

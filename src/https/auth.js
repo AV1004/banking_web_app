@@ -72,9 +72,28 @@ export const login = async (data) => {
 
   const resData = await res.json();
 
-  if (res.status !== 200) {
-    return resData.message;
+  if (res.status === 422 || res.status === 500) {
+    throw Error(resData.message);
   }
 
   return resData;
 };
+export const completeProfile = async (data) => {
+  const res = await fetch("http://localhost:5000/users/completeProfie", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  const resData = await res.json();
+
+  if (res.status === 422 || res.status === 500) {
+    throw Error(resData.message);
+  }
+
+  return resData;
+};
+
+
