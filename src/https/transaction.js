@@ -1,3 +1,25 @@
+export const genreateSignature = async (data, authHeader) => {
+  const res = await fetch(
+    "http://localhost:5000/transaction/generateSignature",
+    {
+      method: "POST",
+      headers: {
+        Authorization: authHeader,
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  const resData = await res.json();
+
+  if (res.status !== 201) {
+    throw Error(resData.message);
+  }
+
+  return resData;
+};
+
 export const makeTransaction = async (data, authHeader) => {
   let url;
   if (data.acNo) {
@@ -5,7 +27,7 @@ export const makeTransaction = async (data, authHeader) => {
   }
 
   if (data.phone) {
-    console.log("Phone");
+    url = "http://localhost:5000/transaction/makeTranscationUsingPhoneNo";
   }
 
   const res = await fetch(url, {
@@ -19,5 +41,9 @@ export const makeTransaction = async (data, authHeader) => {
 
   const resData = await res.json();
 
-  console.log(resData);
+  if (res.status !== 201) {
+    throw Error(resData.message);
+  }
+
+  return resData;
 };

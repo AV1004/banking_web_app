@@ -224,7 +224,11 @@ export default function History() {
         {activeTab === "receive"
           ? receivedMoney.map((receivedTranscation) => {
               return (
-                <Card className="mt-6 w-96 bg-transparent" shadow={false}>
+                <Card
+                  key={receivedTranscation.accountNo}
+                  className="mt-6 w-96 bg-transparent"
+                  shadow={false}
+                >
                   <CardBody className="bg-[#222831] rounded-t-3xl text-[#EEEEEE]">
                     <PiArrowSquareDownRightLight className="h-16 w-16 mb-3 bg-[#222831]" />
                     <Typography

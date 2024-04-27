@@ -28,9 +28,12 @@ const EditProfile = lazy(() => import("./components/EditProfile"));
 function App() {
   // Error
   const [error, setError] = useState("");
-  const [keyPairs, setKeyPairs] = useState({ publicKey: "", privateKey: "" });
+  const [keyPairs, setKeyPairs] = useState({
+    publicKey: "",
+    privateKey: "",
+  });
 
-  const { user,setUser, setIsAuthenticated, setLoading} = useContext(Context)
+  const { user, setUser, setIsAuthenticated, setLoading } = useContext(Context);
 
   useEffect(() => {
     setLoading(true);
@@ -42,7 +45,7 @@ function App() {
         setUser(res.data.admin);
         setIsAuthenticated(true);
         setLoading(false);
-        console.log(res.data)
+        console.log(res.data);
       })
       .catch((error) => {
         setUser({});
