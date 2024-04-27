@@ -1,26 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import UserNav from "./UserNav";
 import { BiSolidHide } from "react-icons/bi";
 import { BiSolidShow } from "react-icons/bi";
 import { GrTransaction } from "react-icons/gr";
 import { GoHistory } from "react-icons/go";
 import { NavLink } from "react-router-dom";
+import { fetchUser } from "../https/auth";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 function USerHomePage() {
+  const auth = useAuthUser();
+  const authHeader = useAuthHeader();
+
+  const [user, setUser] = useState({});
+
   const [showBalance, setShowBalance] = useState(false);
-  // Sample user data
-  const accountNumber = "123456789";
-  const balance = 5000.0; // Balance can be fetched from a backend API
 
   // State for showing a message after copying the account number
   const [copyMessage, setCopyMessage] = useState("");
 
   // Function to handle copying the account number to the clipboard
   const handleCopy = () => {
-    navigator.clipboard.writeText(accountNumber);
+    navigator.clipboard.writeText(user._id);
     setCopyMessage("Account number copied!");
     setTimeout(() => setCopyMessage(""), 2000);
   };
+
+  useEffect(() => {
+    fetchUser(auth.userId, authHeader, null).then((resData) => {
+      setUser(resData.user);
+    });
+  }, []);
+
   //   bg-[#222831]
   return (
     <div>
@@ -33,7 +45,7 @@ function USerHomePage() {
             onClick={handleCopy}
             title="Copy account number"
           >
-            {accountNumber}
+            {user._id}
           </span>
         </p>
         <div className="mb-2 bg-[#222831]">
@@ -48,7 +60,7 @@ function USerHomePage() {
           )}
           {showBalance && (
             <span className="bg-[#222831] mt-3 font-serif text-3xl">
-              ₹{balance.toFixed(2)}
+              ₹{user.wallet.toFixed(2)}
             </span>
           )}
           {showBalance && (
