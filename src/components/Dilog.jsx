@@ -53,23 +53,32 @@ export function NotificationDialog({ detail, type }) {
                 {type === "sender" ? "Sender's" : "Receiver's"} Details
               </Typography>
               <Typography className="font-normal">
-                Name -&gt; {detail.name}
+                Name -&gt;{" "}
+                {type === "sender"
+                  ? detail.senderId.name
+                  : detail.receiverId.name}
               </Typography>
               <Typography className="font-normal">
-                Account No -&gt; {detail.accountNo}
+                Account No -&gt;{" "}
+                {type === "sender"
+                  ? detail.senderId._id
+                  : detail.receiverId._id}
               </Typography>
               <Typography className="font-normal">
-                Moblie No -&gt; {detail.mobileNo}
+                Moblie No -&gt;{" "}
+                {type === "sender"
+                  ? detail.senderId.phone
+                  : detail.receiverId.phone}
               </Typography>
             </div>
 
             <div className="gap-2 flex flex-col">
               <Typography variant="h4">Date & Timing</Typography>
               <Typography className="font-normal">
-                Date -&gt; {detail.date}
+                Date -&gt; {new Date(detail.createdAt).toLocaleDateString()}
               </Typography>
               <Typography className="font-normal">
-                Time -&gt; {detail.time}
+                Time -&gt; {new Date(detail.createdAt).toLocaleTimeString()}
               </Typography>
 
               <Link>

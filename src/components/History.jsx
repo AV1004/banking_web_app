@@ -7,10 +7,17 @@ import {
 } from "@material-tailwind/react";
 import { PiArrowSquareDownRightLight } from "react-icons/pi";
 import { PiArrowSquareUpRightLight } from "react-icons/pi";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NotificationDialog } from "./Dilog";
+import { getTransaction } from "../https/transaction";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import { fetchUser } from "../https/auth";
 
 export default function History() {
+  const auth = useAuthUser();
+  const authHeader = useAuthHeader();
+
   // For Active Tab(i.e sent history or received history)
   const [activeTab, setActiveTab] = useState("receive");
   const changePaymentMethod = (method) => {
@@ -22,7 +29,7 @@ export default function History() {
   const handleOpen = () => setOpen(!open);
 
   // Dummy Data
-  const receivedMoney = [
+  const receivedMoneyOld = [
     {
       title: "Borrowed",
       name: "John Cardy",
@@ -106,7 +113,7 @@ export default function History() {
     },
   ];
 
-  const sentMoney = [
+  const sentMoneyold = [
     {
       title: "Loan",
       name: "James Garcia",
@@ -190,6 +197,31 @@ export default function History() {
     },
   ];
 
+  const [sentMoney, setSentMoney] = useState([]);
+  const [receivedMoney, setReceivedMoney] = useState([]);
+
+  useEffect(() => {
+    async function fetchTransactions() {
+      const transcations = await getTransaction(
+        auth.userId,
+        authHeader,
+        "sent"
+      );
+      setSentMoney(transcations.transcations);
+    }
+    fetchTransactions();
+
+    async function fetchReceived() {
+      const transcations = await getTransaction(
+        auth.userId,
+        authHeader,
+        "receive"
+      );
+      setReceivedMoney(transcations.transcations);
+    }
+    fetchReceived();
+  }, []);
+
   return (
     <div className="mt-10 ml-10 mb-20">
       <Button
@@ -225,7 +257,7 @@ export default function History() {
           ? receivedMoney.map((receivedTranscation) => {
               return (
                 <Card
-                  key={receivedTranscation.accountNo}
+                  key={receivedTranscation._id}
                   className="mt-6 w-96 bg-transparent"
                   shadow={false}
                 >
@@ -243,7 +275,7 @@ export default function History() {
                       color="blue-gray"
                       className="mb-2 bg-[#222831] text-[#EEEEEE]"
                     >
-                      {receivedTranscation.name}
+                      {receivedTranscation.senderId.name}
                     </Typography>
                     <div className="flex gap-4 bg-[#222831]">
                       <Typography variant="h6" className=" bg-[#222831]">
@@ -265,7 +297,11 @@ export default function History() {
             })
           : sentMoney.map((sentTranscation) => {
               return (
-                <Card className="mt-6 w-96 bg-transparent" shadow={false}>
+                <Card
+                  key={sentTranscation._id}
+                  className="mt-6 w-96 bg-transparent"
+                  shadow={false}
+                >
                   <CardBody className="bg-[#222831] rounded-t-3xl text-[#EEEEEE]">
                     <PiArrowSquareUpRightLight className="h-16 w-16 mb-3 bg-[#222831]" />
                     <Typography
@@ -280,7 +316,7 @@ export default function History() {
                       color="blue-gray"
                       className="mb-2 bg-[#222831] text-[#EEEEEE]"
                     >
-                      {sentTranscation.name}
+                      {sentTranscation.receiverId.name}
                     </Typography>
                     <div className="flex gap-4 bg-[#222831]">
                       <Typography variant="h6" className=" bg-[#222831]">

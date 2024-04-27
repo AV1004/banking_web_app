@@ -47,3 +47,29 @@ export const makeTransaction = async (data, authHeader) => {
 
   return resData;
 };
+
+export const getTransaction = async (userId, authHeader, type) => {
+  let url;
+  if (type === "sent") {
+    url = "http://localhost:5000/transaction/getHistorySent/";
+  }
+
+  if(type === "receive"){
+    url = "http://localhost:5000/transaction/getHistoryReceive/"
+  }
+  
+  const res = await fetch(url + userId, {
+    method: "GET",
+    headers: {
+      Authorization: authHeader,
+    },
+  });
+
+  const resData = await res.json();
+
+  if (res.status !== 200) {
+    throw Error(resData.message);
+  }
+
+  return resData;
+};
