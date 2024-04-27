@@ -99,7 +99,7 @@ const UserProfile = () => {
       <div className="rounded-xl max-w-sm mx-auto  overflow-hidden shadow-xl">
         <div className="text-center p-10 align-middle my-4 rounded-xl">
           <img
-            className="h-52 w-80 rounded-full object-cover object-center"
+            className="h-52 w-52 m-auto  rounded-[50%] object-cover object-center"
             src={imageUrl}
             alt="Profile Pic"
           />

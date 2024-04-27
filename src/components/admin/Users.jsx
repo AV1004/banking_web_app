@@ -1,108 +1,108 @@
 import React, { useContext, useEffect, useState } from "react";
 import Table from "../Table";
-import { Link } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
-import { server } from "../../main";
-
-const img =
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTkyU72-X0ji5U7vAEhvQqYuARKDjCuaXFTQSJ5WrtAw&s";
-const img2 =
-  "https://upload.wikimedia.org/wikipedia/commons/2/2a/Jai_Passport_Size_Photo.jpg";
+import { Context, server } from "../../main";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Users() {
-  useEffect(async () => {
-    async function fetchData() {
-      try {
-        const { data } = await axios.get(`${server}/admin/allusers`, {
-          withCredentials: true,
-        });
-        console.log(data.responseData);
-      } catch (error) {
-        console.log(error);
-      }
+  const { loading, setLoading } = useContext(Context);
+
+  const [userData, setUserData] = useState([]);
+  const [imageUrl, setImageUrl] = useState([]);
+  const [deleteUser, setDeleteUser] = useState(false);
+
+  const fetchFunction = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`${server}/admin/allusers`, {
+        withCredentials: true,
+      });
+
+      setUserData(data.users);
+      console.log(data.users);
+
+      const imageUrls = data.users.map((user) => {
+        return `http://localhost:5000/${user.image}`;
+      });
+
+      setImageUrl(imageUrls);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
     }
-  
-    fetchData();
-  }, []);
+  };
 
-  const data = React.useMemo(
-    () => [
-      {
-        photo: <img src={img} className="h-24 w-24 object-cover" />,
-        name: "Preaty",
-        account: "987456321",
-        mobile: "0123456789",
-        email: "a@gmail.com",
-        dob: "30/03/2024",
-        transaction: (
-          <Link
-            to={"/admin/Transaction"}
-            className="text-blue-700 hover:underline"
-          >
-            Transaction
-          </Link>
-        ), //for see transaction of perticular user
-        address: "Bhavnagar",
-        edit: (
-          <Link
-            to={"/admin/users/edituser"}
-            className="text-blue-700 hover:underline"
-          >
-            Manage
-          </Link>
-        ),
-        remove: (
-          <button>
-            <MdDelete fill="red" className="h-8 w-8 ml-5" />
-          </button>
-        ),
-      },
-      {
-        photo: <img src={img2} className="h-24 w-24 object-cover" />,
-        name: "NathuRam",
-        account: "852369741",
-        mobile: "785423215",
-        email: "b@gmail.com",
+  useEffect(() => {
+    fetchFunction();
+  }, [deleteUser]);
 
-        dob: "30/03/2024",
-        transaction: (
-          <Link
-            to={"/admin/Transactions"}
-            className="text-blue-700 hover:underline"
-          >
-            Transaction
-          </Link>
-        ), //for see transaction of perticular user
-        address: "Mahuva",
-        edit: (
-          <Link
-            to={"/admin/users/edituser"}
-            className="text-blue-700 hover:underline"
-          >
-            Manage
-          </Link>
-        ),
-        remove: (
-          <button>
-            <MdDelete fill="red" className="h-8 w-8 ml-5" />
-          </button>
-        ),
-      },
+  const deleteHandler = async (_id) => {
+    try {
+      const { data } = await axios.delete(
+        `${server}/admin/deleteuser`,
+        { _id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      // setDeleteUser(!deleteUser)
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
 
-      // Add more data as needed
-    ],
-    []
-  );
+  const data = React.useMemo(() => {
+    return userData.map((user, index) => ({
+      photo: <img src={imageUrl[index]} className="h-24 w-24 object-cover" />,
+      name: user.name,
+      bank: user.bank,
+      wallet: user.wallet,
+      account: user._id,
+      mobile: user.phone,
+      email: user.email,
+      dob: user.dob,
+      transaction: (
+        <button
+          // to={"/admin/Transaction"}
+          className="text-blue-700 hover:underline"
+        >
+          Transaction
+        </button>
+      ),
+      address: user.address,
+      edit: (
+        <button
+          // to={"/admin/users/edituser"}
+          className="text-blue-700 hover:underline"
+        >
+          Manage
+        </button>
+      ),
+      remove: (
+        <button onClick={()=>deleteHandler(user._id)}>
+          <MdDelete fill="red" className="h-8 w-8 ml-5" />
+        </button>
+      ),
+    }));
+  }, [userData, imageUrl]);
+
   const columns = React.useMemo(
     () => [
-      { Header: "Sr no.", accessor: (row, index) => index + 1 },
+      { Header: "Sr no.", accessor: ( row,index) => index + 1 },
 
       {
         Header: "Photo",
         accessor: "photo",
       },
       { Header: "Name", accessor: "name" },
+      { Header: "Bank", accessor: "bank" },
+      { Header: "Wallet", accessor: "wallet" },
       { Header: "Account Number", accessor: "account" },
       { Header: "Mobile Number", accessor: "mobile" },
       { Header: "Email", accessor: "email" },
@@ -117,8 +117,26 @@ export default function Users() {
     []
   );
   return (
-    <div>
-      <Table data={data} columns={columns} pagination={true} max={2} />
-    </div>
+    <>
+      <div>
+        {loading ? (
+          "loading data..."
+        ) : (
+          <Table data={data} columns={columns} pagination={true} max={2} />
+        )}
+      </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+      />
+    </>
   );
 }

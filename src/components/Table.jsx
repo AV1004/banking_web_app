@@ -38,7 +38,7 @@ const Table = ({ columns, data, pagination = false, max }) => {
   // console.log(pageIndex)
 
   return (
-    <div>
+    <div className="overflow-x-auto">
       <button className="flex border-2 border-black p-1  rounded-xl m-auto mt-8">
         <input
           className="h-9 w-72 border-none outline-none text-xl"
