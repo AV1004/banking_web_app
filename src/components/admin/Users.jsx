@@ -1,11 +1,31 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Table from "../Table";
 import { Link } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
+import axios from "axios";
+import { server } from "../../main";
 
-const img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTkyU72-X0ji5U7vAEhvQqYuARKDjCuaXFTQSJ5WrtAw&s"
-const img2="https://upload.wikimedia.org/wikipedia/commons/2/2a/Jai_Passport_Size_Photo.jpg"
+const img =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTkyU72-X0ji5U7vAEhvQqYuARKDjCuaXFTQSJ5WrtAw&s";
+const img2 =
+  "https://upload.wikimedia.org/wikipedia/commons/2/2a/Jai_Passport_Size_Photo.jpg";
+
 export default function Users() {
+  useEffect(async () => {
+    async function fetchData() {
+      try {
+        const { data } = await axios.get(`${server}/admin/allusers`, {
+          withCredentials: true,
+        });
+        console.log(data.responseData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  
+    fetchData();
+  }, []);
+
   const data = React.useMemo(
     () => [
       {
@@ -15,10 +35,28 @@ export default function Users() {
         mobile: "0123456789",
         email: "a@gmail.com",
         dob: "30/03/2024",
-        transaction: <Link to={"/admin/Transaction"} className="text-blue-700 hover:underline">Transaction</Link>,   //for see transaction of perticular user
+        transaction: (
+          <Link
+            to={"/admin/Transaction"}
+            className="text-blue-700 hover:underline"
+          >
+            Transaction
+          </Link>
+        ), //for see transaction of perticular user
         address: "Bhavnagar",
-        edit: <Link to={"/admin/users/edituser"} className="text-blue-700 hover:underline">Manage</Link>,
-        remove:<button><MdDelete fill="red" className="h-8 w-8 ml-5"/></button>
+        edit: (
+          <Link
+            to={"/admin/users/edituser"}
+            className="text-blue-700 hover:underline"
+          >
+            Manage
+          </Link>
+        ),
+        remove: (
+          <button>
+            <MdDelete fill="red" className="h-8 w-8 ml-5" />
+          </button>
+        ),
       },
       {
         photo: <img src={img2} className="h-24 w-24 object-cover" />,
@@ -28,13 +66,30 @@ export default function Users() {
         email: "b@gmail.com",
 
         dob: "30/03/2024",
-        transaction: <Link to={"/admin/Transactions"} className="text-blue-700 hover:underline">Transaction</Link>,   //for see transaction of perticular user
+        transaction: (
+          <Link
+            to={"/admin/Transactions"}
+            className="text-blue-700 hover:underline"
+          >
+            Transaction
+          </Link>
+        ), //for see transaction of perticular user
         address: "Mahuva",
-        edit: <Link to={"/admin/users/edituser"} className="text-blue-700 hover:underline">Manage</Link>,
-        remove:<button><MdDelete fill="red" className="h-8 w-8 ml-5"/></button>
-
+        edit: (
+          <Link
+            to={"/admin/users/edituser"}
+            className="text-blue-700 hover:underline"
+          >
+            Manage
+          </Link>
+        ),
+        remove: (
+          <button>
+            <MdDelete fill="red" className="h-8 w-8 ml-5" />
+          </button>
+        ),
       },
-      
+
       // Add more data as needed
     ],
     []

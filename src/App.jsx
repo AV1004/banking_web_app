@@ -4,8 +4,10 @@ import Root from "./components/Root";
 import "react-toastify/dist/ReactToastify.css";
 import AuthOutlet from "@auth-kit/react-router/AuthOutlet";
 
-import { lazy, useEffect, useState } from "react";
+import { lazy, useContext, useEffect, useState } from "react";
 import { fetchKeyPairs } from "./https/auth";
+import { Context, server } from "./main";
+import axios from "axios";
 
 const HomePage = lazy(() => import("./components/HomePage"));
 const SignUp = lazy(() => import("./components/SignUp"));
@@ -27,6 +29,27 @@ function App() {
   // Error
   const [error, setError] = useState("");
   const [keyPairs, setKeyPairs] = useState({ publicKey: "", privateKey: "" });
+
+  const { user,setUser, setIsAuthenticated, setLoading} = useContext(Context)
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`${server}/admin/profile`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setUser(res.data.admin);
+        setIsAuthenticated(true);
+        setLoading(false);
+        console.log(res.data)
+      })
+      .catch((error) => {
+        setUser({});
+        setIsAuthenticated(false);
+        setLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
     async function fetchPairsOfKey() {
