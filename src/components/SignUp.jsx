@@ -49,7 +49,7 @@ function SignUp({ keyPairs }) {
         publicKey: keyPairs.publicKey,
       });
       setShowOptVer(true);
-      toast.success("otp send");
+      // toast.success("otp send");
       setLoading(false)
     } catch (err) {
       toast.error(err.message);

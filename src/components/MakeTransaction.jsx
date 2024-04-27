@@ -6,12 +6,57 @@ import {
   Button,
 } from "@material-tailwind/react";
 import { useState } from "react";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import { makeTransaction } from "../https/transaction";
+import { encrypt } from "../utils/encryptDecrypt";
 
 export default function MakeTransaction() {
   const [activeTab, setActiveTab] = useState("accountNo");
+  const auth = useAuthUser();
+  const authHeader = useAuthHeader();
 
   const changePaymentMethod = (method) => {
     method === "account" ? setActiveTab("accountNo") : setActiveTab("phoneNo");
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+
+    const fd = new FormData(event.target);
+
+    const acquisitionChannel = fd.getAll("acquisition");
+    const data = Object.fromEntries(fd.entries());
+    data.acquisition = acquisitionChannel;
+
+    let finalData;
+
+    const encyptedUPIPin = encrypt(data.upiPin);
+
+    if (data.AcoountNumber) {
+      if (data.AcoountNumber === auth.userId) {
+        throw new Error("Can't send money to your Account No");
+      }
+      finalData = {
+        senderId: auth.userId,
+        acNo: data.AcoountNumber,
+        upiPin: encyptedUPIPin,
+        title: data.title,
+        amount: data.amount,
+      };
+    }
+
+    if (data.mobileNumber) {
+      finalData = {
+        senderId: auth.userId,
+        phone: data.mobileNumber,
+        upiPin: encyptedUPIPin,
+        title: data.title,
+        amount: data.amount,
+      };
+    }
+
+    makeTransaction(finalData, authHeader);
   };
 
   return (
@@ -59,7 +104,7 @@ export default function MakeTransaction() {
           </CardHeader>
           <CardBody className="bg-[#222831] rounded-r-xl">
             {activeTab === "accountNo" ? (
-              <form className="bg-[#222831] p-8 ">
+              <form onSubmit={submitHandler} className="bg-[#222831] p-8 ">
                 <h1 className="text-4xl tracking-wide font-light  mb-8 text-center bg-[#222831] text-[#EEEEEE]">
                   Using AccountNo
                 </h1>
@@ -72,8 +117,8 @@ export default function MakeTransaction() {
                 />
                 <input
                   type="password"
-                  name="password"
-                  placeholder="Transaction Password"
+                  name="upipin"
+                  placeholder="Enter your six digit PIN"
                   required
                   className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
                 />
@@ -100,7 +145,7 @@ export default function MakeTransaction() {
                 {/* </div> */}
               </form>
             ) : (
-              <form className="bg-[#222831] p-8 ">
+              <form onSubmit={submitHandler} className="bg-[#222831] p-8 ">
                 <h1 className="text-4xl tracking-wide font-light  mb-8 text-center bg-[#222831] text-[#EEEEEE]">
                   Using PhoneNo
                 </h1>
@@ -113,8 +158,8 @@ export default function MakeTransaction() {
                 />
                 <input
                   type="password"
-                  name="password"
-                  placeholder="Transaction Password"
+                  name="upipin"
+                  placeholder="Enter your six digit PIN"
                   required
                   className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
                 />
