@@ -20,7 +20,6 @@ export default function Users() {
       });
 
       setUserData(data.users);
-      console.log(data.users);
 
       const imageUrls = data.users.map((user) => {
         return `http://localhost:5000/${user.image}`;
@@ -69,22 +68,15 @@ export default function Users() {
       email: user.email,
       dob: user.dob,
       transaction: (
-        <button
-          // to={"/admin/Transaction"}
+        <NavLink
+          to={`/admin/transaction/${user._id}`}
           className="text-blue-700 hover:underline"
         >
           Transaction
-        </button>
-      ),
-      address: user.address,
-      edit: (
-        <NavLink
-          to={`/admin/users/${user._id}`}
-          className="text-blue-700 hover:underline"
-        >
-          Manage
         </NavLink>
       ),
+      address: user.address,
+     
       remove: (
         <button onClick={()=>deleteHandler(user)}>
           <MdDelete fill="red" className="h-8 w-8 ml-5" />
@@ -109,7 +101,6 @@ export default function Users() {
       { Header: "Email", accessor: "email" },
       { Header: "DOB", accessor: "dob" },
       { Header: "Address", accessor: "address" },
-      { Header: "Edit", accessor: "edit" },
       { Header: " Transaction", accessor: "transaction" },
       { Header: "Remove", accessor: "remove" },
 

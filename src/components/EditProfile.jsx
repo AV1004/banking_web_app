@@ -11,18 +11,18 @@ export default function EditProfile() {
 
   const [image, setImage] = useState("");
 
-  const changeImageHandler = (e) => {
-    const file = e.target.files?.[0];
+  // const changeImageHandler = (e) => {
+  //   const file = e.target.files?.[0];
 
-    const reader = new FileReader();
+  //   const reader = new FileReader();
 
-    if (file) {
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        if (typeof reader.result === "string") setImage(reader.result);
-      };
-    }
-  };
+  //   if (file) {
+  //     reader.readAsDataURL(file);
+  //     reader.onloadend = () => {
+  //       if (typeof reader.result === "string") setImage(reader.result);
+  //     };
+  //   }
+  // };
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -62,13 +62,13 @@ export default function EditProfile() {
               Complete Profile{" "}
             </h1>
 
-            {image && (
+            {/* {image && (
               <img
                 className="object-cover h-32 w-32 m-auto mb-5 rounded-[50%]"
                 src={image}
                 alt="New Image"
               />
-            )}
+            )} */}
 
             <input
               type="file"

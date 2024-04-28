@@ -27,6 +27,7 @@ export default function AdminLogin() {
       await toast.promise(Promise.resolve(toast.success(data.message)), {
         onClose: () => "",
       });
+      console.log(data)
       setIsAuthenticated(true)
       setLoading(false);
 

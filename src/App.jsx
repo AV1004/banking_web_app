@@ -22,7 +22,7 @@ const AdminHome = lazy(() => import("./components/admin/AdminHome"));
 const Transactions = lazy(() => import("./components/admin/Transactions"));
 const Users = lazy(() => import("./components/admin/Users"));
 const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
-const EditUser = lazy(() => import("./components/admin/EditUser"));
+const UserTransaction = lazy(() => import("./components/admin/UserTransaction"));
 const EditProfile = lazy(() => import("./components/EditProfile"));
 
 function App() {
@@ -102,8 +102,8 @@ function App() {
       >
         <Route index={true} element={<AdminHome />} />
         <Route path="transaction" element={<Transactions />} />
+        <Route path="transaction/:id" element={<UserTransaction />} />
         <Route path="users" element={<Users />} />
-        <Route path="users/:id" element={<EditUser />} />
         <Route path="login" element={<AdminLogin />} />
       </Route>
     </Routes>
