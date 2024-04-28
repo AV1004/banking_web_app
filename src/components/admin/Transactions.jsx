@@ -1,56 +1,58 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Table from "../Table";
+import axios from "axios";
+import { Context, server } from "../../main";
+import { ToastContainer } from "react-toastify";
 export default function Transactions() {
-  const data = React.useMemo(
-    () => [
-      {
-        from: "John",
-        to: "cena",
-        amount: "10000",
-        date: "30/03/2024",
-        time: "5:07 PM",
-        status: "Success",
-        // action: <Link to={""}>Manage</Link>
-      },
-      {
-        type: "Send",
-        from: "Valay",
-        to: "Raina",
-        amount: "5000",
-        date: "12/03/2024",
-        time: "4:06 AM",
-        status: "Failed",
-        // action: <Link to={""}>Manage</Link>
-      },
-      {
-        from: "parth",
-        to: "kuldip",
-        amount: "10000",
-        date: "30/03/2024",
-        time: "5:07 PM",
-        status: "Success",
-      },
-      {
-        from: "Valay",
-        to: "deva",
-        amount: "5000",
-        date: "12/03/2024",
-        time: "4:06 AM",
-        status: "Failed",
-        // action: <Link to={""}>Manage</Link>
-      },
-      // Add more data as needed
-    ],
-    []
-  );
+
+  const { loading, setLoading } = useContext(Context);
+  const [tranData, setTranData] = useState([]);
+
+  const fetchFunction = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`${server}/admin/transaction`, {
+        withCredentials: true,
+      });
+
+      setTranData(data.transaction);
+      console.log(data.transaction);
+
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchFunction();
+  }, []);
+
+
+
+  const data = React.useMemo(() => {
+    return tranData.map((tran, index) => ({
+      trid:tran._id,
+      title:tran.title,
+      amount: tran.amount,
+      from: tran.senderId,
+      to: tran.receiverId,
+      date: tran.createdAt,
+      status: "Success",
+    }));
+  }, [tranData]);
+
+ 
   const columns = React.useMemo(
     () => [
       { Header: "Sr no.", accessor: (row, index) => index + 1 },
       { Header: "From", accessor: "from" },
       { Header: "To", accessor: "to" },
+      { Header: "Title", accessor: "title" },
       { Header: "Amount", accessor: "amount" },
       { Header: "Date", accessor: "date" },
-      { Header: "Time", accessor: "time" },
+      { Header: "Transaction Id", accessor: "trid" },
       {
         Header: "Status",
         accessor: "status",
@@ -66,8 +68,27 @@ export default function Transactions() {
   );
 
   return (
-    <div>
-      <Table data={data} columns={columns} pagination={true} max={2} />
-    </div>
+<>
+      <div>
+        {loading ? (
+          "loading data..."
+        ) : (
+          <Table data={data} columns={columns} pagination={true} max={5} />
+        )}
+      </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={true}
+        theme="light"
+      />
+    </>
+ 
   );
 }

@@ -4,13 +4,13 @@ import { MdDelete } from "react-icons/md";
 import axios from "axios";
 import { Context, server } from "../../main";
 import { ToastContainer, toast } from "react-toastify";
+import { NavLink } from "react-router-dom";
 
 export default function Users() {
   const { loading, setLoading } = useContext(Context);
 
   const [userData, setUserData] = useState([]);
   const [imageUrl, setImageUrl] = useState([]);
-  const [deleteUser, setDeleteUser] = useState(false);
 
   const fetchFunction = async () => {
     try {
@@ -26,6 +26,7 @@ export default function Users() {
         return `http://localhost:5000/${user.image}`;
       });
 
+      
       setImageUrl(imageUrls);
       setLoading(false);
     } catch (error) {
@@ -36,13 +37,13 @@ export default function Users() {
 
   useEffect(() => {
     fetchFunction();
-  }, [deleteUser]);
+  }, []);
 
-  const deleteHandler = async (_id) => {
+  const deleteHandler = async (user) => {
     try {
       const { data } = await axios.delete(
         `${server}/admin/deleteuser`,
-        { _id },
+        { data: { _id: user._id } },
         {
           headers: {
             "Content-Type": "application/json",
@@ -50,7 +51,7 @@ export default function Users() {
           withCredentials: true,
         }
       );
-      // setDeleteUser(!deleteUser)
+      await fetchFunction(); // Fetch updated user data after deletion
       toast.success(data.message);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -77,15 +78,15 @@ export default function Users() {
       ),
       address: user.address,
       edit: (
-        <button
-          // to={"/admin/users/edituser"}
+        <NavLink
+          to={`/admin/users/${user._id}`}
           className="text-blue-700 hover:underline"
         >
           Manage
-        </button>
+        </NavLink>
       ),
       remove: (
-        <button onClick={()=>deleteHandler(user._id)}>
+        <button onClick={()=>deleteHandler(user)}>
           <MdDelete fill="red" className="h-8 w-8 ml-5" />
         </button>
       ),
@@ -134,7 +135,7 @@ export default function Users() {
         rtl={false}
         pauseOnFocusLoss
         draggable
-        pauseOnHover={false}
+        pauseOnHover={true}
         theme="light"
       />
     </>

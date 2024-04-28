@@ -2,11 +2,12 @@ import React from "react";
 import { CgProfile } from "react-icons/cg";
 
 export default function EditUser() {
+
+  
   return (
     <div className="m-auto">
       <form
-        action=""
-        className="m-auto p-8 shadow-md w-96 rounded-2xl bg-[#222831] text-[#EEEEEE]"
+onSubmit={submitHandler}        className="m-auto p-8 shadow-md w-96 rounded-2xl bg-[#222831] text-[#EEEEEE]"
       >
         <div className="bg-[#222831] text-[#EEEEEE]">
           <div className="mb-4 bg-[#222831] text-[#EEEEEE]">

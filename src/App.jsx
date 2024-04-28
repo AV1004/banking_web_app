@@ -103,8 +103,8 @@ function App() {
         <Route index={true} element={<AdminHome />} />
         <Route path="transaction" element={<Transactions />} />
         <Route path="users" element={<Users />} />
+        <Route path="users/:id" element={<EditUser />} />
         <Route path="login" element={<AdminLogin />} />
-        <Route path="users/edituser" element={<EditUser />} />
       </Route>
     </Routes>
   );

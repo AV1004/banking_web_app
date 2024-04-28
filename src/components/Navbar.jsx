@@ -18,7 +18,7 @@ export default function Navbar() {
   useEffect(() => {
     {
       if(!isAuthenticated)
-         toast.success(" your are LoggedOut !! logIn again for access")
+         toast.info(" your are LoggedOut !! logIn again for access")
        
     }
   }, [logout]);
