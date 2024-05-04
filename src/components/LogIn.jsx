@@ -22,16 +22,6 @@ export default function LogIn({ loginHandler }) {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    // const { data } = await axios.post(
-    //   `${server}/users/login`,
-    //   { email, password },
-    //   {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     withCredentials: true,
-    //   }
-    // );
     setLoading(true);
     login({ email: email, password: password })
       .then((resData) => {

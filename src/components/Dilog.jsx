@@ -81,12 +81,12 @@ export function NotificationDialog({ detail, type }) {
                 Time -&gt; {new Date(detail.createdAt).toLocaleTimeString()}
               </Typography>
 
-              <Link>
+              {/* <Link>
                 <Button className="flex bg-[#222831] hover:bg-[#393E46]">
                   Download Invoice{" "}
                   <FaDownload className="ml-2 bg-[#222831] text-[#EEEEEE] hover:bg-[#454950]" />{" "}
                 </Button>
-              </Link>
+              </Link> */}
             </div>
           </div>
         </DialogBody>
