@@ -9,9 +9,9 @@ import {
 } from "@material-tailwind/react";
 import { TbListDetails } from "react-icons/tb";
 import { GrTransaction } from "react-icons/gr";
-import { FaDownload } from "react-icons/fa";
+// import { FaDownload } from "react-icons/fa";
 
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 export function NotificationDialog({ detail, type }) {
   const [open, setOpen] = useState(false);
@@ -70,6 +70,11 @@ export function NotificationDialog({ detail, type }) {
                   ? detail.senderId.phone
                   : detail.receiverId.phone}
               </Typography>
+              {/* <Typography className="font-normal">
+               Transaction id :    {type === "sender"
+                  ? detail.senderId._id
+                  : detail.receiverId._id}
+              </Typography> */}
             </div>
 
             <div className="gap-2 flex flex-col">

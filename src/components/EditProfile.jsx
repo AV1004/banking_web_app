@@ -69,10 +69,10 @@ export default function EditProfile() {
                 alt="New Image"
               />
             )} */}
-
+        <label className="text-white font-thin bg-[#222831]">Profile Photo</label>
             <input
               type="file"
-              name="image"
+              name="image"  
               required
               className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
             />
@@ -90,6 +90,7 @@ export default function EditProfile() {
               required
               className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
             />
+            <label className="text-white font-thin bg-[#222831]">Date Of Birth</label>
             <input
               type="date"
               placeholder="Date Of Birth"

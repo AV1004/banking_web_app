@@ -119,7 +119,7 @@ const UserProfile = () => {
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <span className="text-sm font-medium text-gray-500">Ac no.</span>
             <span className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {userDetails._id}
+              {userDetails.accountNum}
             </span>
           </div>
 
@@ -145,7 +145,7 @@ const UserProfile = () => {
               {userDetails.address}
             </span>
           </div>
-          <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <div className="py-3 mb-8 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <span className="text-sm font-medium text-gray-500">
               {" "}
               Date Of Birth
@@ -156,7 +156,7 @@ const UserProfile = () => {
           </div>
         </div>
       </div>
-      <button
+      {/* <button
         onClick={handleShowHistoryClick}
         className="m-auto mt-12 p-2 flex rounded-xl items-center bg-[#222831] hover:opacity-80 text-white"
       >
@@ -177,7 +177,7 @@ const UserProfile = () => {
             Read More..
           </button>
         </NavLink>
-      )}
+      )} */}
       <ToastContainer
         position="top-center"
         autoClose={3000}
