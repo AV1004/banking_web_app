@@ -44,6 +44,9 @@ export function NotificationDialog({ detail, type }) {
           <Typography className="text-[#222831]" variant="h1">
             {detail.title}
           </Typography>
+          <Typography className="font-normal">
+            Transaction Id -&gt; {type === "sender" ? detail._id : detail._id}
+          </Typography>
           <div className="text-gray-500 font-bold">
             ____________________________________________________________________
           </div>
@@ -70,6 +73,7 @@ export function NotificationDialog({ detail, type }) {
                   ? detail.senderId.phone
                   : detail.receiverId.phone}
               </Typography>
+
               {/* <Typography className="font-normal">
                Transaction id :    {type === "sender"
                   ? detail.senderId._id

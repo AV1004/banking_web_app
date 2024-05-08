@@ -8,7 +8,7 @@ function SignUp({ keyPairs }) {
   const [showOtpVer, setShowOptVer] = useState(false);
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState("");
-  const {  loading, setLoading } = useContext(Context);
+  const { loading, setLoading } = useContext(Context);
 
   const navigate = useNavigate();
 
@@ -50,7 +50,7 @@ function SignUp({ keyPairs }) {
       });
       setShowOptVer(true);
       // toast.success("otp send");
-      setLoading(false)
+      setLoading(false);
     } catch (err) {
       toast.error(err.message);
     }
@@ -77,7 +77,6 @@ function SignUp({ keyPairs }) {
             navigate("/user/editprofile");
           }, 3000);
         });
-
     } catch (err) {
       console.log(err);
       toast.error("some error occured in verification!");
@@ -161,7 +160,7 @@ function SignUp({ keyPairs }) {
                     type="password"
                     required
                     name="password"
-                    placeholder="Password"
+                    placeholder="Password(8 Characters)"
                     className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
                   />
                 </div>
