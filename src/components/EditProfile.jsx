@@ -9,21 +9,6 @@ export default function EditProfile() {
   const authHeader = useAuthHeader();
   const navigate = useNavigate();
 
-  const [image, setImage] = useState("");
-
-  // const changeImageHandler = (e) => {
-  //   const file = e.target.files?.[0];
-
-  //   const reader = new FileReader();
-
-  //   if (file) {
-  //     reader.readAsDataURL(file);
-  //     reader.onloadend = () => {
-  //       if (typeof reader.result === "string") setImage(reader.result);
-  //     };
-  //   }
-  // };
-
   const submitHandler = (e) => {
     e.preventDefault();
     const fd = new FormData(e.target);
@@ -62,17 +47,12 @@ export default function EditProfile() {
               Complete Profile{" "}
             </h1>
 
-            {/* {image && (
-              <img
-                className="object-cover h-32 w-32 m-auto mb-5 rounded-[50%]"
-                src={image}
-                alt="New Image"
-              />
-            )} */}
-        <label className="text-white font-thin bg-[#222831]">Profile Photo</label>
+            <label className="text-white font-thin bg-[#222831]">
+              Profile Photo
+            </label>
             <input
               type="file"
-              name="image"  
+              name="image"
               required
               className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
             />
@@ -90,7 +70,9 @@ export default function EditProfile() {
               required
               className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
             />
-            <label className="text-white font-thin bg-[#222831]">Date Of Birth</label>
+            <label className="text-white font-thin bg-[#222831]">
+              Date Of Birth
+            </label>
             <input
               type="date"
               placeholder="Date Of Birth"
@@ -98,18 +80,52 @@ export default function EditProfile() {
               required
               className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
             />
-            <input
+            <select
               type="text"
               name="bank"
               placeholder="Enter your bank name"
               required
               className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
-            />
+            >
+              <option
+                disabled
+                selected
+                value
+                className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
+              >
+                select your bank
+              </option>
+              <option
+                value="SBI"
+                className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
+              >
+                SBI
+              </option>
+              <option
+                value="HDFC"
+                className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
+              >
+                HDFC
+              </option>
+              <option
+                value="ICICI"
+                className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
+              >
+                ICICI
+              </option>
+              <option
+                value="BOB"
+                className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
+              >
+                BOB
+              </option>
+            </select>
+
             <input
               type="password"
               name="upipin"
               required
-              placeholder="Upi Pin"
+              placeholder="Upi Pin(6 Digit)"
               className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
             />
           </div>
