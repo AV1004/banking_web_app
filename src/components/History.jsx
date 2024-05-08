@@ -53,6 +53,97 @@ export default function History() {
     fetchReceived();
   }, []);
 
+  // This variable shows ReceivedHistory of transaction
+  const showReceivedHistory =
+    receivedMoney.length === 0
+      ? "You did not receive money yet!"
+      : receivedMoney.map((receivedTranscation) => {
+          return (
+            <Card
+              key={receivedTranscation._id}
+              className="mt-6 w-96 bg-transparent"
+              shadow={false}
+            >
+              <CardBody className="bg-[#222831] rounded-t-3xl text-[#EEEEEE]">
+                <PiArrowSquareDownRightLight className="h-16 w-16 mb-3 bg-[#222831]" />
+                <Typography
+                  variant="h6"
+                  color="blue-gray"
+                  className="-mb-3 bg-[#222831] text-[#EEEEEE]"
+                >
+                  from
+                </Typography>
+                <Typography
+                  variant="h3"
+                  color="blue-gray"
+                  className="mb-2 bg-[#222831] text-[#EEEEEE]"
+                >
+                  {receivedTranscation.senderId.name}
+                </Typography>
+                <div className="flex gap-4 bg-[#222831]">
+                  <Typography variant="h6" className=" bg-[#222831]">
+                    Amount: ₹{receivedTranscation.amount}
+                  </Typography>
+                  <Typography variant="h6" className=" bg-[#222831]">
+                    Title : {receivedTranscation.title}
+                  </Typography>
+                </div>
+              </CardBody>
+              <CardFooter className="pt-0 bg-[#222831] ">
+                <NotificationDialog
+                  type={"sender"}
+                  detail={receivedTranscation}
+                />
+              </CardFooter>
+            </Card>
+          );
+        });
+
+  const showSentHistory =
+    sentMoney.length === 0
+      ? "You did not sent money yet!"
+      : sentMoney.map((sentTranscation) => {
+          return (
+            <Card
+              key={sentTranscation._id}
+              className="mt-6 w-96 bg-transparent"
+              shadow={false}
+            >
+              <CardBody className="bg-[#222831] rounded-t-3xl text-[#EEEEEE]">
+                <PiArrowSquareUpRightLight className="h-16 w-16 mb-3 bg-[#222831]" />
+                <Typography
+                  variant="h6"
+                  color="blue-gray"
+                  className="-mb-3 bg-[#222831] text-[#EEEEEE]"
+                >
+                  sent to
+                </Typography>
+                <Typography
+                  variant="h3"
+                  color="blue-gray"
+                  className="mb-2 bg-[#222831] text-[#EEEEEE]"
+                >
+                  {sentTranscation.receiverId.name}
+                </Typography>
+                <div className="flex gap-4 bg-[#222831]">
+                  <Typography variant="h6" className=" bg-[#222831]">
+                    Amount: ₹{sentTranscation.amount}
+                  </Typography>
+                  <Typography variant="h6" className=" bg-[#222831]">
+                    Title : {sentTranscation.title}
+                  </Typography>
+                </div>
+              </CardBody>
+              <CardFooter className="pt-0 bg-[#222831] ">
+                <NotificationDialog
+                  type={"receiver"}
+                  detail={sentTranscation}
+                />
+              </CardFooter>
+            </Card>
+          );
+        });
+
   return (
     <div className="mt-10 ml-10 mb-20">
       <Button
@@ -84,89 +175,7 @@ export default function History() {
 
       {/* History */}
       <div className="flex justify-center items-center gap-36 flex-wrap mt-10 mr-14">
-        {activeTab === "receive"
-          ? receivedMoney.map((receivedTranscation) => {
-              return (
-                <Card
-                  key={receivedTranscation._id}
-                  className="mt-6 w-96 bg-transparent"
-                  shadow={false}
-                >
-                  <CardBody className="bg-[#222831] rounded-t-3xl text-[#EEEEEE]">
-                    <PiArrowSquareDownRightLight className="h-16 w-16 mb-3 bg-[#222831]" />
-                    <Typography
-                      variant="h6"
-                      color="blue-gray"
-                      className="-mb-3 bg-[#222831] text-[#EEEEEE]"
-                    >
-                      from
-                    </Typography>
-                    <Typography
-                      variant="h3"
-                      color="blue-gray"
-                      className="mb-2 bg-[#222831] text-[#EEEEEE]"
-                    >
-                      {receivedTranscation.senderId.name}
-                    </Typography>
-                    <div className="flex gap-4 bg-[#222831]">
-                      <Typography variant="h6" className=" bg-[#222831]">
-                        Amount: ₹{receivedTranscation.amount}
-                      </Typography>
-                      <Typography variant="h6" className=" bg-[#222831]">
-                        Title : {receivedTranscation.title}
-                      </Typography>
-                    </div>
-                  </CardBody>
-                  <CardFooter className="pt-0 bg-[#222831] ">
-                    <NotificationDialog
-                      type={"sender"}
-                      detail={receivedTranscation}
-                    />
-                  </CardFooter>
-                </Card>
-              );
-            })
-          : sentMoney.map((sentTranscation) => {
-              return (
-                <Card
-                  key={sentTranscation._id}
-                  className="mt-6 w-96 bg-transparent"
-                  shadow={false}
-                >
-                  <CardBody className="bg-[#222831] rounded-t-3xl text-[#EEEEEE]">
-                    <PiArrowSquareUpRightLight className="h-16 w-16 mb-3 bg-[#222831]" />
-                    <Typography
-                      variant="h6"
-                      color="blue-gray"
-                      className="-mb-3 bg-[#222831] text-[#EEEEEE]"
-                    >
-                      sent to
-                    </Typography>
-                    <Typography
-                      variant="h3"
-                      color="blue-gray"
-                      className="mb-2 bg-[#222831] text-[#EEEEEE]"
-                    >
-                      {sentTranscation.receiverId.name}
-                    </Typography>
-                    <div className="flex gap-4 bg-[#222831]">
-                      <Typography variant="h6" className=" bg-[#222831]">
-                        Amount: ₹{sentTranscation.amount}
-                      </Typography>
-                      <Typography variant="h6" className=" bg-[#222831]">
-                        Title : {sentTranscation.title}
-                      </Typography>
-                    </div>
-                  </CardBody>
-                  <CardFooter className="pt-0 bg-[#222831] ">
-                    <NotificationDialog
-                      type={"receiver"}
-                      detail={sentTranscation}
-                    />
-                  </CardFooter>
-                </Card>
-              );
-            })}
+        {activeTab === "receive" ? showReceivedHistory : showSentHistory}
       </div>
     </div>
   );
