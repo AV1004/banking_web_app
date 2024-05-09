@@ -22,10 +22,9 @@ export default function Users() {
       setUserData(data.users);
 
       const imageUrls = data.users.map((user) => {
-        return `http://localhost:5000/${user.image}`;
+        return `https://localhost:5000/${user.image}`;
       });
 
-      
       setImageUrl(imageUrls);
       setLoading(false);
     } catch (error) {
@@ -76,9 +75,9 @@ export default function Users() {
         </NavLink>
       ),
       address: user.address,
-     
+
       remove: (
-        <button onClick={()=>deleteHandler(user)}>
+        <button onClick={() => deleteHandler(user)}>
           <MdDelete fill="red" className="h-8 w-8 ml-5" />
         </button>
       ),
@@ -87,7 +86,7 @@ export default function Users() {
 
   const columns = React.useMemo(
     () => [
-      { Header: "Sr no.", accessor: ( row,index) => index + 1 },
+      { Header: "Sr no.", accessor: (row, index) => index + 1 },
 
       {
         Header: "Photo",
