@@ -19,7 +19,7 @@ export default function History() {
   const authHeader = useAuthHeader();
 
   // For Active Tab(i.e sent history or received history)
-  const [activeTab, setActiveTab] = useState("receive");
+  const [activeTab, setActiveTab] = useState("send");
   const changePaymentMethod = (method) => {
     method === "receive" ? setActiveTab("receive") : setActiveTab("send");
   };

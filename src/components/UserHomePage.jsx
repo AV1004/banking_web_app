@@ -21,9 +21,14 @@ function USerHomePage() {
   const [copyMessage, setCopyMessage] = useState("");
 
   // Function to handle copying the account number to the clipboard
-  const handleCopy = () => {
-    navigator.clipboard.writeText(user._id);
-    setCopyMessage("Account number copied!");
+  const handleCopy = (mode) => {
+    if (mode === "ACCno") {
+      navigator.clipboard.writeText(user._id);
+      setCopyMessage("Account number copied!");
+    } else {
+      navigator.clipboard.writeText(user.upiId);
+      setCopyMessage("UPI ID copied!");
+    }
     setTimeout(() => setCopyMessage(""), 2000);
   };
 
@@ -42,10 +47,24 @@ function USerHomePage() {
           Account Number:
           <span
             className="font-bold bg-[#222831] font-serif text-xl text-white ml-2 cursor-pointer"
-            onClick={handleCopy}
+            onClick={() => {
+              handleCopy("ACCno");
+            }}
             title="Copy account number"
           >
             {user._id}
+          </span>
+        </p>
+        <p className="bg-[#222831] mt-2">
+          UPI ID:
+          <span
+            className="font-bold bg-[#222831] font-serif text-xl text-white ml-2 cursor-pointer"
+            onClick={() => {
+              handleCopy("UPIid");
+            }}
+            title="Copy account number"
+          >
+            {user.upiId}
           </span>
         </p>
         <div className="mb-2 bg-[#222831]">
