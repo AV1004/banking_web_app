@@ -150,7 +150,7 @@ export default function MakeTransaction() {
         </Button>
 
         {/* Form */}
-        <div className="flex justify-center items-center  mt-10 mr-14">
+        <div className="flex justify-center items-center  mt-1 mr-14">
           <Card className="w-full max-w-[48rem] flex-row">
             <CardHeader
               shadow={false}
@@ -174,6 +174,20 @@ export default function MakeTransaction() {
                     name="AcoountNumber"
                     required
                     placeholder="Account Number"
+                    className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
+                  />
+                  <input
+                    type="text"
+                    name="fullname"
+                    placeholder="Enter your name as per bank"
+                    required
+                    className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
+                  />
+                  <input
+                    type="text"
+                    name="ifscCode"
+                    placeholder="IFSC Code"
+                    required
                     className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
                   />
                   <input
