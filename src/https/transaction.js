@@ -1,6 +1,6 @@
 export const genreateSignature = async (data, authHeader) => {
   const res = await fetch(
-    "https://localhost:5000/transaction/generateSignature",
+    "http://localhost:5000/transaction/generateSignature",
     {
       method: "POST",
       headers: {
@@ -23,11 +23,11 @@ export const genreateSignature = async (data, authHeader) => {
 export const makeTransaction = async (data, authHeader) => {
   let url;
   if (data.acNo) {
-    url = "https://localhost:5000/transaction/makeTranscationUsingAccNo";
+    url = "http://localhost:5000/transaction/makeTranscationUsingAccNo";
   }
 
   if (data.phone) {
-    url = "https://localhost:5000/transaction/makeTranscationUsingPhoneNo";
+    url = "http://localhost:5000/transaction/makeTranscationUsingPhoneNo";
   }
 
   const res = await fetch(url, {
@@ -51,11 +51,11 @@ export const makeTransaction = async (data, authHeader) => {
 export const getTransaction = async (userId, authHeader, type) => {
   let url;
   if (type === "sent") {
-    url = "https://localhost:5000/transaction/getHistorySent/";
+    url = "http://localhost:5000/transaction/getHistorySent/";
   }
 
   if(type === "receive"){
-    url = "https://localhost:5000/transaction/getHistoryReceive/"
+    url = "http://localhost:5000/transaction/getHistoryReceive/"
   }
   
   const res = await fetch(url + userId, {
