@@ -39,7 +39,7 @@ function App() {
     setLoading(true);
     axios
       .get(`${server}/admin/profile`, {
-        // withCredentials: true,
+        withCredentials: true,
       })
       .then((res) => {
         setUser(res.data.admin);
